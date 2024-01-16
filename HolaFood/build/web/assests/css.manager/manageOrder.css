@@ -1,0 +1,275 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 7, 2024, 5:23:04 PM
+    Author     : admin
+*/
+
+
+.manage__order {
+    width: 1140px;
+}
+
+.manage__order-header {
+    background-color: var(--white-color);
+    box-shadow: inset 0 -1px 0 0 #e8e8e8;
+    position: fixed;
+    top: 70px;
+    left: 281px;
+    right: 98px;
+    transition: all 0.3s ease;
+}
+
+.order-menu {
+    margin: 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.order-menu__name {
+    width: auto;
+    min-width: 10%;
+    color: var(--title-color);
+}
+
+.order-menu__link {
+    font-size: 1.44rem;
+}
+
+.order-menu__name--active .order-menu__link {
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 2.6px solid var(--primary-color);
+}
+
+.manage__order-container {
+    background-color: var(--white-color);
+    min-height: 600px;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,.1);
+    padding: 15px 30px;
+    margin-top: 42px;
+}
+
+.manage__order-export {
+    justify-content: flex-end;
+    height: 34px;
+    margin-top: 12px;
+    font-size: 1.4rem;
+    color: var(--text-color);
+}
+
+.manage__order-export-title {
+    margin-right: 8px;
+}
+
+.manage__order-export-date {
+    border: 1px solid #e3e3e3;
+    outline: none;
+    border-radius: 3px;
+    padding: 4px 12px;
+    width: 200px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.manage__order-export-btn {
+    height: 100%;
+    margin-left: 14px;
+    border: 1px solid #e3e3e3;
+    border-radius: 3px;
+}
+
+.manage__order-search {
+    height: 32px;
+    margin: 20px 0;
+    font-size: 1.4rem;
+
+}
+
+.manage__order-search-list {
+    border: 1px solid #e3e3e3;
+    outline: none;
+    padding: 4px 12px;
+    width: 190px;
+    height: 100%;
+    cursor: pointer;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.manage__order-export-date:hover,
+.manage__order-search-group:hover,
+.manage__order-search-list:hover {
+    border: 0.8px solid #b3b3b3;
+}
+
+.manage__order-search-group {
+    border: 1px solid #e3e3e3;
+    height: 100%;
+    width: 680px;
+    border-left: none;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.manage__order-search-input {
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 92%;
+    padding: 4px 14px;
+}
+.manage__order-search-input::placeholder {
+    color: #b3b3b3;
+}
+
+.manage__order-search-icon {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0 16px;
+    color: #bdbdbd;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.manage__order-search-btn {
+    height: 100%;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-left: 14px;
+    min-width: 92px;
+    font-size: 1.4rem;
+    align-items: center;
+}
+
+.manage__order-search-reset {
+    height: 100%;
+    margin: 0;
+    margin-left: 14px;
+    width: 92px;
+    font-size: 1.4rem;
+
+}
+
+.manage__order-title {
+    height: 40px;
+    margin: 35px 20px 20px;
+}
+
+.manage__order-title-label {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--title-color);
+}
+
+.manage__order-title-btn {
+    height: 100%;
+    margin: 0;
+    margin-left: 14px;
+    min-width: 92px;
+    font-size: 1.4rem;
+    font-weight: 560;
+    padding: 0 16px;
+    margin-left: auto;
+    border-radius: 4px;
+}
+
+.manage__order-icon {
+    color: var(--white-color);
+    padding-right: 8px;
+    font-size: 1.4rem;
+}
+
+.manage__order-list-header {
+    color: rgb(117, 117, 117);
+    font-size: 14px;
+    padding: 12px 16px;
+    background: rgb(246, 246, 246);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border: 1px solid rgb(232, 232, 232);
+}
+
+.manage__order-list-container {
+    height: 800px;
+    overflow-y: scroll;
+    color: var(--text-color);
+    font-size: 14px;
+    padding: 12px 16px;
+    background-color: var(--white-color);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border: 1px solid rgb(232, 232, 232);
+    border-top: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.manage__order-list-item {
+    display: flex;
+    padding: 12px 0;
+}
+
+.order-item {
+    padding: 0 10px;
+}
+
+.manage__order-item-id {
+    width: 100px;
+    padding-left: 0;
+}
+
+.manage__order-item-username {
+    min-width: 160px;
+    max-width: 160px;
+}
+
+.manage__order-item-purchase {
+    max-width: 140px;
+    min-width: 140px;
+}
+
+.manage__order-item-date {
+    max-width: 140px;
+    min-width: 140px;
+}
+
+
+.manage__order-item-status {
+    max-width: 120px;
+    min-width: 120px;
+}
+
+.manage__order-item-price {
+    max-width: 120px;
+    min-width: 120px;
+}
+
+.manage__order-item-action {
+    min-width: 160px;
+    display: flex;
+    justify-content: space-between;
+    color: #00c;
+}
+
+.manage__order-btn {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+}
+
+.manage__order-btn-cancel {
+    color: #b3b3b3;
+    cursor: no-drop;
+}
+
+.manage__order-btn-cancel:hover {
+    color: #b3b3b3;
+    cursor: no-drop;
+}

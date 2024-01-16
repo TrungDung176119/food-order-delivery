@@ -1,0 +1,92 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 7, 2024, 5:23:31 PM
+    Author     : admin
+*/
+
+
+.table__account-id,
+.table__account-name,
+.table__account-password,
+.table__account-admin,
+.table__account-block,
+.table__account-action {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--text-color);
+    min-height: 40px;
+    margin: 10px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.table__account-cnt {
+       font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--color-infor);
+    min-height: 40px;
+    margin: 10px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover__table-id {
+    width: 128px;
+}
+
+.table__account-action {
+    justify-content: space-around;   
+}
+
+.table__account-action a:hover {
+    color: var(--primary-color);
+}
+
+
+.dialog-body__title {
+    font-size: 1.5rem;
+    color: var(--color-infor);
+    margin-bottom: 20px;
+}
+
+.dialog-body__item {
+    display: flex;
+    margin: 15px 0;
+}
+
+.dialog-body__item span {
+    width: 115px;
+    text-align: left;
+    margin: auto 5px;
+}
+
+.dialog__icon {
+    color: var(--hover-color);
+    margin: auto 2px;
+}
+
+.dialog-close-btn {
+    position: absolute;
+    top: 0;
+    right: 8px;
+    font-size: 2.6rem;
+    color: var(--text-color);
+}
+
+.dialog-close-btn:hover {
+    color: var(--hover-color);
+}
+
+.overlay-close {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: default;
+}
