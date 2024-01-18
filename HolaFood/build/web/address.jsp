@@ -60,7 +60,7 @@
                                             </div>
                                             <div style="display: flex;">
                                                 <span class="address-title">Số điện thoại: </span>
-                                                <input name="phone" value="${AccAddr.phone_addr}" class="input__light address-input__name" type="number" min="0">
+                                                <input name="phone" value="${AccAddr.phone_address}" class="input__light address-input__name" type="number" min="0">
                                             </div>
                                         </div>
                                         <div class="address__right-content">
@@ -68,8 +68,8 @@
                                             <input name="addr" value="${AccAddr.address}" class="input__light " type="text">
                                         </div>
                                         <div class="address__right-content">
-                                            <span class="address-title">Địa chỉ cụ thể: </span>
-                                            <textarea style="width: 90%" name="addrDe" class="input__light address__textarea">${AccAddr.address_detail}</textarea>
+                                            <span class="address-title">Lưu ý khi giao hàng: </span>
+                                            <textarea style="width: 90%" name="note" class="input__light address__textarea">${AccAddr.note}</textarea>
                                         </div>
                                         <div class="address__right-btn">
                                             <span class="address-title"></span>
@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="" style="text-align: right;" >
                                             <button type="reset" class="btn__light" style="margin: 0 12px 50px 0;">Hủy</button>
-                                            <button type="submit" class="btn__save"> Hoàn thành</button>
+                                            <button type="submit" class="btn__save" name="action" value="update_address"> Hoàn thành</button>
                                         </div>
                                     </div>
                                     <input type="hidden" id="selectedOption" name="selectedOption" value="">
