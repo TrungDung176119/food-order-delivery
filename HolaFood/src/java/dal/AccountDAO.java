@@ -10,6 +10,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.profile.Account;
 import model.profile.AccountAddress;
 import model.profile.AccountDetail;
@@ -103,28 +105,38 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    public boolean editAddress(final String TYPE_ACTION, int accid, String nickname, String phone_addr, String address, String note, String status) {
+    public boolean manageAddress(final String TYPE_ACTION, String addressId, int accId, String nickname, String phoneAddr, String address, String note, String status) {
 
         String query = "";
         if (TYPE_ACTION.equals(ConstAccount.ACTION_INSERT)) {
-            query = "INSERT INTO Account_Address ( nickname, phone_addr, address, note, status, acc_id)\n"
-                    + "VALUES ( ?, ?, ?, ?, ?, ?)";
+            query = "INSERT INTO Account_Address (nickname, phone_addr, address, note, status, acc_id)\n"
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
         } else if (TYPE_ACTION.equals(ConstAccount.ACTION_UPDATE)) {
             query = "UPDATE Account_Address SET nickname = ?, phone_addr = ?, address = ?, note = ?, status = ?\n"
-                    + "WHERE acc_id = ?";
+                    + "WHERE address_id = ?";
+        } else if (TYPE_ACTION.equals(ConstAccount.ACTION_DELETE)) {
+            query = "DELETE FROM Account_Address WHERE address_id = ?";
         }
 
         try {
             ps = connection.prepareStatement(query);
-            ps.setString(1, nickname);
-            ps.setString(2, phone_addr);
-            ps.setString(3, address);
-            ps.setString(4, note);
-            ps.setString(5, status);
-            ps.setInt(6, accid);
+            if (TYPE_ACTION.equals(ConstAccount.ACTION_DELETE)) {
+                ps.setString(1, addressId);
+            } else {
+                ps.setString(1, nickname);
+                ps.setString(2, phoneAddr);
+                ps.setString(3, address);
+                ps.setString(4, note);
+                ps.setString(5, status);
 
-            ps.executeUpdate();
-            return true;
+                if (TYPE_ACTION.equals(ConstAccount.ACTION_INSERT)) {
+                    ps.setInt(6, accId);
+                } else if (TYPE_ACTION.equals(ConstAccount.ACTION_UPDATE)) {
+                    ps.setString(6, addressId);
+                }
+            }
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -229,21 +241,58 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
-     
-     public AccountAddress getAccAddressByid(int accid) {
+
+    public List<AccountAddress> getAccAddressByid(int accid) {
+        List<AccountAddress> addressList = new ArrayList<>();
         String query = ConstAccount.QUERY_SELECT_ACCOUNT_ADDRESS + accid;
 
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return new AccountAddress (rs.getInt(1),
+            while (rs.next()) {
+                AccountAddress address = new AccountAddress(
+                        rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6));
+                        rs.getString(6),
+                        rs.getInt(7));
+                addressList.add(address);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return addressList;
+    }
+
+    public AccountAddress getAccAddressByAddressId(int address_id) {
+        String query = "Select * from ACCOUNT_ADDRESS where address_id = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, address_id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new AccountAddress(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getInt(7));
             }
 
         } catch (SQLException e) {
@@ -270,11 +319,5 @@ public class AccountDAO extends DBContext {
 //            System.out.println("no");
 //        }
 //        boolean a = ad.editAddress(ConstAccount.ACTION_INSERT, 3, "asasd", "", "", "22", "");
-        AccountAddress a = ad.getAccAddressByid(3);
-        if (a != null) {
-            System.out.println(a);
-        } else {
-            System.out.println("no");
-        }
     }
 }

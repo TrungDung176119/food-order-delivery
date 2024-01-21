@@ -159,7 +159,7 @@ public class ProfileServlet extends HttpServlet {
                 }
             }
         }
-        request.setAttribute("msSuccess", ms);
+        request.setAttribute("ms", ms);
         // Profile updated successfully
         request.getRequestDispatcher("profile.jsp").forward(request, response);
     }

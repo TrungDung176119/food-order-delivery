@@ -52,3 +52,47 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     display: flex;
     margin-top: 10px;
 }
+
+/* Add this section to your address.css file */
+.profile__right-address-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profile__right-address-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.profile__right-address-info {
+    flex: 1;
+}
+
+.profile__right-address-info p {
+    margin: 5px 0;
+}
+
+.profile__right-address-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Style for edit and delete icons */
+.edit-icon,
+.delete-icon {
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Add hover effects for icons */
+.edit-icon:hover,
+.delete-icon:hover {
+    color: #007bff;
+}

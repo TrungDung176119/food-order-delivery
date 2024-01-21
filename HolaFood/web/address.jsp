@@ -11,21 +11,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HolaFood</title>
+    <title>Hola Food</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <!-- css -->
     <link rel="stylesheet" href="./assests/css.profile/address.css">
-
+    <link rel="stylesheet" href="./assests/css.profile/profile.css">
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
     <!-- icon title -->
-    <link rel="icon" type="image/x-icon" href="./assests/img/cat-icon-title.ico">
+    <link rel="icon" type="image/x-icon" href="./assests/img/cat-icon-title.png">
     <!-- boostrap -->
-    <link href="./assests/boostrap/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assests/boostrap/bootstrap.css">
 
 </head>
 
@@ -46,7 +46,7 @@
                                     <span>Cập nhật địa chỉ nhận hàng của bạn tại đây</span>
                                 </div>
                                 <div class="profile__right-message ">
-                                ${msSuccess}
+                                ${ms}
                             </div>
                         </div>
                         <div class="profile__right-content" style="margin-top: 25px;">
@@ -74,29 +74,57 @@
                                         <div class="address__right-btn">
                                             <span class="address-title"></span>
                                             <div>
-                                                <input name="home" class="btn__light" value="Nhà Riêng" ${AccAddr.status == 'Nhà Riêng' ? 'checked' : ''} onclick="updateAriaChecked(this)"  />
-                                                <input name="office" class="btn__light" value="Văn Phòng" ${AccAddr.status == 'Văn Phòng' ? 'checked' : ''} onclick="updateAriaChecked(this)"  />
+                                                <label>
+                                                    <input type="radio" name="status" value="Nhà Riêng" ${AccAddr.status == 'Nhà Riêng' ? 'checked' : ''}>
+                                                    Nhà Riêng
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="status" value="Văn Phòng" ${AccAddr.status == 'Văn Phòng' ? 'checked' : ''}>
+                                                    Văn Phòng
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="" style="text-align: right;" >
                                             <button type="reset" class="btn__light" style="margin: 0 12px 50px 0;">Hủy</button>
-                                            <button type="submit" class="btn__save" name="action" value="update_address"> Hoàn thành</button>
+                                            <button type="submit" class="btn__save"> Hoàn thành</button>
                                         </div>
+                                        <input type ="text" name="addressid" value ="${AccAddr.address_id}" readonly="">
                                     </div>
-                                    <input type="hidden" id="selectedOption" name="selectedOption" value="">
-
                                 </form>
                             </div>
-                            <div class="profile__right-pic">
-                                <img src="https://yt3.ggpht.com/yti/ADpuP3MEBtPK2w3PD74lGPnowgesuAR_VQYgWY4u0_NPcw=s88-c-k-c0x00ffffff-no-rj"
-                                     alt="">
-                                <button class="btn__light" type="submit">Chọn Ảnh</button>
-                                <span>Dụng lượng file tối đa 1 MB</span>
-                                <span> Định dạng:.JPEG, .PNG &nbsp;&nbsp;&nbsp;&nbsp; </span>
+                            <!-- Add this section to your address.jsp file -->
+                            <div class="profile__right-address-list">
+                                <!-- Each box represents an address -->
+                                <c:if test="${not empty addresses}">
+                                    <c:forEach var="address" items="${addresses}">
+                                        <div class="profile__right-address-box">
+                                            <div class="profile__right-address-info">
+                                                <p><strong>Họ và tên:</strong> ${address.nickname}</p>
+                                                <p><strong>Số điện thoại:</strong> ${address.phone_address}</p>
+                                                <p><strong>Địa chỉ:</strong> ${address.address}</p>
+                                                <p><strong>Lưu ý khi giao hàng:</strong> ${address.note}</p>
+                                                <p><strong>Loại địa chỉ:</strong> ${address.status}</p>
+                                            </div>
+                                            <div class="profile__right-address-actions">
+                                                <!-- Edit icon as a link to the edit servlet -->
+                                                <a href="updateaddress?address_id=${address.address_id}">
+                                                    <span class="edit-icon">&#9998;</span>
+                                                </a>
+                                                <!-- Delete icon as a link to the delete servlet -->
+                                                <a href="deleteaddress?address_id=${address.address_id}">
+                                                    <span class="delete-icon">&#128465;</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${empty addresses}">
+                                    <p>No addresses found.</p>
+                                </c:if>
+                                <!-- Repeat this block for each address -->
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -105,23 +133,4 @@
 
     </div>
 </body>
-<script>
-    function updateAriaChecked(element) {
-        // Lặp qua tất cả các thẻ input trong cùng tên
-        var inputs = document.querySelectorAll('input[name="' + element.name + '"]');
-        for (var i = 0; i < inputs.length; i++) {
-            // Đặt aria-checked="false" cho tất cả các thẻ input
-            inputs[i].setAttribute('aria-checked', 'false');
-        }
-
-        // Đặt aria-checked="true" cho thẻ input được chọn
-        element.setAttribute('aria-checked', 'true');
-
-        // Lấy giá trị của nút radio được chọn và lưu vào biến hoặc trường ẩn
-        var selectedValue = element.value;
-        document.getElementById('selectedOption').value = selectedValue;
-    }
-
-</script>
-
 </html>

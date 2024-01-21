@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suga</title>
+    <title>Hola Food</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <!-- css -->
     <link rel="stylesheet" href="./assests/css.profile/profile.css">
@@ -19,13 +19,13 @@
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
     <!-- icon title -->
-    <link rel="icon" type="image/x-icon" href="./assests/img/cat-icon-title.ico">
+    <link rel="icon" type="image/x-icon" href="./assests/img/cat-icon-title.png">
     <!-- boostrap -->
-    <link href="./assests/boostrap/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assests/boostrap/bootstrap.css">
     
 
 </head>
@@ -47,7 +47,7 @@
                                     <span>Quản lý thông tin hồ sơ để bảo mật tài khoản</span>
                                 </div>
                                 <div class="profile__right-message ">
-                                ${msSuccess}
+                                ${ms}
                             </div>
                         </div>
                         <div class="profile__right-content" style="margin-top: 25px;">

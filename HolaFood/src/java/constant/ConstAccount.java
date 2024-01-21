@@ -25,5 +25,7 @@ public interface ConstAccount {
     public static String ACTION_INSERT = "INSERT";
 
     public static String ACTION_UPDATE = "UPDATE";
+    
+    public static String ACTION_DELETE = "DELETE"; 
 
 }

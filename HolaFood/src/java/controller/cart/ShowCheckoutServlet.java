@@ -136,7 +136,7 @@ public class ShowCheckoutServlet extends HttpServlet {
         // Ipdate account address take goods
         AccountDAO adao = new AccountDAO();
         AccountDetail accd = adao.getAccDetailByid(acc.getAccid());
-        AccountAddress accAddress = adao.getAccAddressByid(acc.getAccid());
+        List<AccountAddress> accAddress = adao.getAccAddressByid(acc.getAccid());
         if (accd != null) {
             request.setAttribute("accd", accd);
         }
@@ -222,7 +222,7 @@ public class ShowCheckoutServlet extends HttpServlet {
         // Ipdate account address take goods
         AccountDAO adao = new AccountDAO();
         AccountDetail accd = adao.getAccDetailByid(acc.getAccid());
-        AccountAddress accAddress = adao.getAccAddressByid(acc.getAccid());
+        List<AccountAddress> accAddress = adao.getAccAddressByid(acc.getAccid());
         if (accd != null) {
             request.setAttribute("accd", accd);
         }
