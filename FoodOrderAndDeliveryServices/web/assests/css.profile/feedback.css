@@ -1,0 +1,138 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 7, 2024, 6:07:39 PM
+    Author     : admin
+*/
+
+/* feedback */
+.app__feedback {
+    background-color: var(--bg-menu-color);
+}
+
+.feedback {
+    background-color: var(--white-color);
+    padding: 25px;
+    box-shadow: var(--box-shadow);
+}
+
+
+.feedback-title {
+    font-size: 1.8rem;
+    color: rgba(0, 0, 0, .87);
+    margin-bottom: 14px;
+}
+
+.feedback-overiew {
+    padding: 30px;
+    background-color: #fffbf8;
+    min-height: 5rem;
+    border: 1px solid #f9ede5;
+    margin-bottom: 1rem;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.feedback-rating {
+    color: var(--primary-color);
+    margin-right: 30px;
+}
+
+.feedback-rating__average {
+    font-size: 3rem;
+}
+
+.feedback-rating__score {
+    font-size: 2rem;
+}
+
+.feedback-rating__star {
+    font-size: 1.66rem;
+}
+
+.feedback-filter {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.feedback-filter__btn-submit {
+    justify-content: center;
+    height: 34.4px;
+    margin: 5px 4px;
+    border-radius: 2px;
+}
+
+.feedback-filter__btn-submit--active {
+    color: var(--primary-color) !important;
+    border: 1.4px solid var(--primary-color)!important;
+}
+
+.feedback-main {
+    display: flex;
+    padding: 0 0 16px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, .09);
+    margin-top: 20px;
+}
+
+.feedback-avt {
+    margin: 0 10px;
+}
+
+.feedback-content__author {
+    font-size: 1.26rem;
+    color: rgba(0, 0, 0, .87);
+}
+
+.feedback-content__author-rating {
+    color: var(--primary-color);
+    padding: 3px 0;
+}
+
+.feedback-content__author-time {
+    color: rgba(0, 0, 0, .54);
+}
+
+.feedback-content__author-comment {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.feedback-content-label {
+    display: flex;
+    flex-direction: row;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.feedback-content-pic {
+    height: 70px;
+    width: 70px;
+    position: relative;
+    margin: 16px 12px 10px 0;
+    cursor: zoom-in;
+}
+
+.feedback-content__image {
+    background-position: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+/* avatar */
+.suga-avatar {
+    height: 40px;
+    width: 40px;
+}
+
+.suga-avatar__img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}

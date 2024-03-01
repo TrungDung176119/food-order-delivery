@@ -1,0 +1,59 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 7, 2024, 5:28:14 PM
+    Author     : admin
+*/
+
+.home__container {
+    padding-top: 76px;
+    padding-left: 242px;
+    width: 100%;
+    margin: 0;
+}
+
+.sidebar {
+    padding-top: 92px;
+    position: fixed;
+    z-index: 0;
+    width: 230px;
+    height: calc(100% - 0px);
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background: var(--white-color);
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,.04);
+}
+
+.sidebar-menu {
+    color: var(--title-color);
+    padding-left: 20px ;
+    font-size: 1.44rem;
+    font-weight: 600;
+}
+
+.sidebar-item {
+    display: flex;
+    list-style: none;
+    margin-bottom: 24px;
+    cursor: pointer;
+    max-width: 180px;
+}
+
+.sidebar-item__title {
+    color: var(--title-color);
+
+}
+
+.sidebar-item__title:hover {
+    color: var(--primary-color);
+}
+
+.sidebar-item__icon {
+    color: var(--color-infor);
+    height: 16px;
+    width: 16px;
+    margin-right: 6px;
+    font-weight: 300;
+}

@@ -1,0 +1,73 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 21, 2024, 4:06:44 PM
+    Author     : admin
+*/
+html {
+    font-size: 11px;
+    color: var(--text-color);
+}
+
+.container__forgot {
+    max-width: 420px;
+    margin: 100px auto;
+    background-color: var(--white-color);
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0px 6px rgba(0, 0, 0, 0.4);
+}
+
+.container__forgot-title {
+    font-size: 2.2rem;
+}
+
+.container__forgot-label {
+    font-size: 1.4rem;
+}
+
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-forgot__input {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0 0px 0;
+    box-sizing: border-box;
+    border: 1px solid #bfbdbd ;
+    border-radius: 2px;
+    height: 34px;
+
+}
+
+.form-forgot__input:hover {
+    border: 1px solid #727272;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    margin: 12px 0 8px 0;
+    
+}
+
+button:hover {
+    background-color: var(--hover-color);
+}
+
+#statusMessage {
+    margin-top: 20px;
+    color: var(--primary-color);
+}

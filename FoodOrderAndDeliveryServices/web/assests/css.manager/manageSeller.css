@@ -1,0 +1,118 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Feb 4, 2024, 9:19:11 PM
+    Author     : admin
+*/
+
+
+.manage__seller-menu-tabs {
+    background-color: var(--white-color);
+    box-shadow: inset 0 -1px 0 0 #e8e8e8;
+    position: fixed;
+    top: 70px;
+    left: 290px;
+    right: 49px;
+    transition: all 0.3s ease;
+}
+
+.manage__seller-menu {
+    transform: translateX(0px);
+    text-align: center;
+    width: 100%;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.manage__seller-menu-link {
+    height: 52px;
+    min-width: 10%;
+    cursor: pointer;
+    /*transition: fadeIn .6s ease-in-out;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    transition: growth .2s ease-in-out;
+}
+
+.manage__seller-menu-name {
+    font-size: 1.4rem;
+    padding: 16px 16px;
+    min-width: 112px;
+}
+
+.manage__seller-menu-name:hover {
+    color: var(--primary-color);
+}
+
+.manage__seller-menu-link--active .manage__seller-menu-name {
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.manage__seller-head-title {
+    margin-bottom: 16px;
+}
+
+.manage__seller-table-header {
+    box-shadow: var(--box-shadow);
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+.manage__seller-table-header th {
+    padding: 14px 12px;
+    background-color: var(--bg-menu-color);
+    font-size: 1.4rem;
+    color: var(--color-gray);
+    font-weight: 400;
+}
+
+.manage__seller-table-item {
+    color: var(--color-low-black);
+}
+
+.manage__seller-table-id {
+    color: var(--primary-color);
+}
+
+.manage__seller-table-id:hover {
+    color: var(--hover-color);
+}
+
+.manage__seller-table-container td {
+    padding: 10px;
+    text-align: center;
+}
+
+.manage__seller-table-img {
+    width: 50px;
+}
+
+.manage__seller-table-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 6px;
+    max-width: 160px;
+    text-align: left;
+}
+
+.manage__seller-table-name {
+    font-size: 1.4rem;
+    color: var(--text-color);
+}
+
+.manage__seller-table-address {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1.2rem;
+    color: var(--color-infor);
+}
+
+.manage__seller-table-action {
+    min-width: 110px;
+    text-align: center;
+}

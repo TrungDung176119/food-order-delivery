@@ -1,0 +1,463 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 7, 2024, 5:23:04 PM
+    Author     : admin
+*/
+
+
+.manage__order {
+    width: 1140px;
+}
+
+.manage__order-header {
+    background-color: var(--white-color);
+    box-shadow: inset 0 -1px 0 0 #e8e8e8;
+    position: fixed;
+    top: 70px;
+    left: 290px;
+    right: 89px;
+    transition: all 0.3s ease;
+}
+
+.order-menu {
+    margin: 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.order-menu__name {
+    width: auto;
+    min-width: 10%;
+    color: var(--title-color);
+}
+
+.order-menu__link {
+    font-size: 1.44rem;
+}
+
+.order-menu__name--active .order-menu__link {
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 2.6px solid var(--primary-color);
+}
+
+.manage__order-container {
+    background-color: var(--white-color);
+    min-height: 600px;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,.1);
+    padding: 15px 30px;
+    margin-top: 42px;
+}
+
+.manage__order-export {
+    justify-content: flex-end;
+    height: 34px;
+    margin-top: 12px;
+    font-size: 1.4rem;
+    color: var(--text-color);
+}
+
+.manage__order-export-title {
+    margin-right: 8px;
+}
+
+.manage__order-export-date {
+    border: 1px solid #e3e3e3;
+    outline: none;
+    border-radius: 3px;
+    padding: 4px 12px;
+    width: 200px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.manage__order-export-btn {
+    height: 100%;
+    margin-left: 14px;
+    border: 1px solid #e3e3e3;
+    border-radius: 3px;
+}
+
+.manage__order-search {
+    height: 32px;
+    margin: 20px 0;
+    font-size: 1.4rem;
+
+}
+
+.manage__order-search-list {
+    border: 1px solid #e3e3e3;
+    outline: none;
+    padding: 4px 12px;
+    width: 190px;
+    height: 100%;
+    cursor: pointer;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.manage__order-export-date:hover,
+.manage__order-search-group:hover,
+.manage__order-search-list:hover {
+    border: 0.8px solid #b3b3b3;
+}
+
+.manage__order-search-group {
+    border: 1px solid #e3e3e3;
+    height: 100%;
+    width: 680px;
+    border-left: none;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.manage__order-search-input {
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 92%;
+    padding: 4px 14px;
+}
+.manage__order-search-input::placeholder {
+    color: #b3b3b3;
+}
+
+.manage__order-search-icon {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0 16px;
+    color: #bdbdbd;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.manage__order-search-btn {
+    height: 100%;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-left: 14px;
+    min-width: 92px;
+    font-size: 1.4rem;
+    align-items: center;
+}
+
+.manage__order-search-reset {
+    height: 100%;
+    margin: 0;
+    margin-left: 14px;
+    width: 92px;
+    font-size: 1.4rem;
+
+}
+
+.manage__order-title {
+    height: 40px;
+    margin: 35px 20px 20px;
+}
+
+.manage__order-title-label {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--title-color);
+}
+
+.manage__order-title-btn {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    min-width: 92px;
+    font-size: 1.4rem;
+    font-weight: 560;
+    padding: 0 16px;
+    margin-left: auto;
+    border-radius: 4px;
+}
+
+.manage__order-icon {
+    color: var(--white-color);
+    padding-right: 8px;
+    font-size: 1.4rem;
+}
+
+.manage__order-list-header {
+    color: var(--color-gray);
+    font-size: 14px;
+    padding: 12px 16px;
+    background: rgb(246, 246, 246);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border: 1px solid rgb(232, 232, 232);
+}
+
+.manage__order-list-container {
+    height: 800px;
+    overflow-y: scroll;
+    color: var(--text-color);
+    font-size: 14px;
+    padding: 12px 16px;
+    background-color: var(--white-color);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border: 1px solid rgb(232, 232, 232);
+    border-top: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.manage__order-list-item {
+    display: flex;
+    padding: 12px 0;
+}
+
+.order-item {
+    padding: 0 10px;
+}
+
+.manage__order-item-id {
+    width: 100px;
+    padding-left: 0;
+}
+
+.manage__order-item-username {
+    min-width: 160px;
+    max-width: 160px;
+}
+
+.manage__order-item-purchase {
+    max-width: 140px;
+    min-width: 140px;
+}
+
+.manage__order-item-date {
+    max-width: 180px;
+    min-width: 180px;
+}
+
+
+.manage__order-item-status {
+    max-width: 120px;
+    min-width: 120px;
+}
+
+.manage__order-item-price {
+    max-width: 120px;
+    min-width: 120px;
+}
+
+.manage__order-item-action {
+    min-width: 160px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-link);
+}
+
+.manage__order-btn {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+.manage__order-btn:hover {
+    color: var(--primary-color);
+}
+
+.manage__order-btn-cancel {
+    color: rgba(163, 163, 163, 0.8);
+    cursor: no-drop;
+}
+
+.manage__order-btn-cancel:hover {
+    color: rgba(163, 163, 163, 0.8);
+    cursor: no-drop;
+}
+
+
+/*dialog view order detail*/
+
+.dialog-order-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dialog-body__title {
+    font-size: 2.4rem;
+    color: var(--title-color);
+    margin-bottom: 10px;
+}
+
+.dialog-body__title-code {
+    font-size: 1.9rem;
+    color: var(--color-gray);
+}
+
+.dialog-order__code {
+    font-size: 1.4rem;
+    color: rgb(251, 0, 255);
+    margin-left: 8px;
+}
+
+.dialog-order-container {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.order-detail-view {
+    width: 800px;
+    overflow: auto;
+    padding: 28px 32px;
+}
+
+.dialog-view-product {
+    padding: 6px 0 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,.09);
+
+}
+
+.dialog-detail-product {
+    flex: 1;
+}
+
+.dialog-detail-product__img {
+    padding-top: 12%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 101px;
+    height: 60px;
+    border-radius: 2px;
+}
+
+.dialog-detail-product__describe {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    font-size: 1.4rem;
+    color: var(--text-color);
+}
+
+.dialog-detail-product__name {
+    min-width: 300px;
+}
+
+.dialog-detail-product__quantity,
+.dialog-detail-product__category {
+    color: var(--color-gray);
+}
+
+.dialog-detail-price {
+    width: 206px;
+    justify-content: space-between;
+}
+
+.dialog-detail-rating__box {
+    font-size: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dialog-detail-rating {
+    color: var(--star-color);
+    font-size: 1.1rem;
+}
+
+.dialog-view-detail-content {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(0,0,0,.09);
+
+}
+
+
+.dialog-view-address {
+    width: 40%;
+    border-right: 1px solid rgba(0,0,0,.09);
+    display: flex;
+    flex-direction: column;
+    padding-right: 10px;
+    padding-top: 12px;
+    border-bottom: 1px solid rgba(0,0,0,.09);
+
+}
+
+.dialog-view-address__name {
+    color: var(--text-color);
+    font-size: 1.4rem;
+}
+
+
+.dialog-view-address__title {
+    margin-bottom: 14px;
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+.dialog-view-address__detail {
+    font-size: 12px;
+    color: rgba(0,0,0,.54);
+    margin: 2px 0;
+}
+
+.dialog-view-order {
+    width: 60%;
+}
+
+.dialog-detail-order {
+    padding: 0 24px;
+    align-items: center;
+    border-bottom: 1px dotted rgba(0,0,0,.09);
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    font-size: 1.4rem;
+    color: var(--text-color);
+}
+
+.dialog-detail__title {
+    color: rgba(0,0,0,.54);
+    font-size: 12px;
+    padding: 13px 10px;
+}
+
+.dialog-detail__price {
+    border-left: 1px dotted rgba(0,0,0,.09);
+    justify-content: flex-end;
+    padding: 13px 0 13px 10px;
+    width: 200px;
+    word-wrap: break-word;
+    color: rgba(0,0,0,.8);
+
+}
+
+.dialog-detail__total {
+    border-left: 1px dotted rgba(0,0,0,.09);
+    justify-content: flex-end;
+    padding: 12px 0 12px 10px;
+    width: 200px;
+    word-wrap: break-word;
+    color: var(--primary-color);
+    font-size: 2.3rem;
+}
+
+.dialog-detail__btn {
+    width: 90px;
+    margin-top: 14px;
+}
+
+.suga-product-status {
+    margin-right: 4px;
+    padding: 3px 6px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-radius: 4px;
+    font-size: 1.1rem;
+}
