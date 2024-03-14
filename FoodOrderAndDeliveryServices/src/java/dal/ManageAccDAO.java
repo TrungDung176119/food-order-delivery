@@ -146,5 +146,8 @@ public class ManageAccDAO extends DBContext {
         }
         return false;
     }
-    
+    public static void main(String[] args) {
+        ManageAccDAO dao = new ManageAccDAO();
+        dao.manageAccount(ConstAccount.ACCTION_BLOCK, null, null, null, "1", null, null, "2");
+    }
 }

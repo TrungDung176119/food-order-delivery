@@ -28,14 +28,6 @@
         <link rel="icon" type="image/x-icon" href="./assests/img/cat-icon-title.ico">
         <!-- boostrap -->
         <link href="./assests/boostrap/bootstrap.css" rel="stylesheet">
-        <script src="ckeditor/ckeditor.js"></script>
-        <style >
-            .home__controll-input {
-                margin: 30px 0;
-                display: flex;
-                align-items: center;
-            }
-        </style>
     </head>
     <style>
 
@@ -73,7 +65,7 @@
                                 <div class="home__controll-input">
                                     <span class="home__controll-icon">*</span>
                                     <span class="home__controll-input-name">Mô tả sản phẩm</span>
-                                    <textarea required  name="describe" class="home__controll-input-text text__describe ckeditor" type="text" placeholder="Thêm mô tả sản phẩm">${detail.describe}</textarea>
+                                    <textarea required  name="describe" class="home__controll-input-text text__describe" type="text" placeholder="Thêm mô tả sản phẩm">${detail.describe}</textarea>
                                 </div> 
                                 <div class="home__controll-number"  >
                                     <div class="home__controll-input" style="margin-right: 40px">
@@ -96,15 +88,10 @@
                                     </div>
                                 </div>
                                 <div class="home__controll-number" style="margin-bottom: 30px;">
-                                    <div class="home__controll-number-input" style="margin-right: 40px;">
-                                        <span class="home__controll-icon">*</span>
-                                        <span class="home__controll-input-name">Giá cũ</span>
-                                        <input required name="old_price" value="${detail.old_price}" class="home__controll-number-text" type="number" min="0" placeholder="Nhập vào">
-                                    </div>
                                     <div class="home__controll-number-input">
                                         <span class="home__controll-icon">*</span>
-                                        <span class="home__controll-input-name">Giá hiện tại</span>
-                                        <input required name="current_price"  value="${detail.current_price}" class="home__controll-number-text" type="number" min="0" placeholder="Nhập vào">
+                                        <span class="home__controll-input-name">Giá (VND)</span>
+                                        <input required name="new_price"  value="${detail.current_price}" class="home__controll-number-text" type="number" min="0" placeholder="Nhập vào">
                                     </div>
                                 </div>
 
@@ -120,14 +107,6 @@
                                                 </c:when>
                                                 <c:otherwise>
                                                     <option value="Yêu thích">Yêu thích</option>
-                                                </c:otherwise>
-                                            </c:choose>
-                                            <c:choose>
-                                                <c:when test="${detail.status eq 'Yêu thích+'}">
-                                                    <option value="Yêu thích+" selected>Yêu thích+</option>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <option value="Yêu thích+">Yêu thích+</option>
                                                 </c:otherwise>
                                             </c:choose>
                                             <c:choose>
@@ -166,7 +145,7 @@
                                     </div>
                                     <div class="home__controll-number-input">
                                         <span class="home__controll-icon">*</span>
-                                        <span class="home__controll-input-name">Lượng trong kho </span>
+                                        <span class="home__controll-input-name">Số lượng</span>
                                         <input required name="in_stock" value="${detail.number_in_stock}" class="home__controll-number-text" type="text" placeholder="Nhập vào">
                                     </div>
                                 </div>
@@ -174,13 +153,14 @@
                                     <input type="hidden" name="productid" value="${detail.pid}">
                                     <input type="hidden" name="sold" value=${detail.amount_of_sold}>
                                     <input type="hidden" name="rating" value="${detail.rating}">
+                                    <input type="hidden" name="current_price" value="${detail.current_price}">
                                 </div>
                                 <div class="home__controll-button">
                                     <div class="home__controll-button-left">
                                     </div>
                                     <div class="home__controll-button-right">
                                         <button class="btn btn__action btn__action-type" type="reset">Reset</button>
-                                        <button class="btn btn__action btn__action-submit" type="submit"> Thêm</button>
+                                        <button class="btn btn__action btn__action-submit" type="submit">Xác nhận</button>
                                     </div>
 
                                 </div>

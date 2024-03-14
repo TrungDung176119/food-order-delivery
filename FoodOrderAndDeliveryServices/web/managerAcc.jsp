@@ -57,9 +57,6 @@
                                         <th style="max-width: 30px; color: var(--color-infor)">
                                             <div class="table__account-id"> STT </div>
                                         </th>
-                                        <th class="cover__table-id">
-                                            <div class="table__account-id"> Mã tài khoản</div>
-                                        </th>
                                         <th>
                                             <div class="table__account-name" >Tên người sử dụng</div>
                                         </th>
@@ -70,7 +67,7 @@
                                             <div class="table__account-admin" >RoleId</div>
                                         </th>
                                         <th>
-                                            <div class="table__account-block" >isBlock</div>
+                                            <div class="table__account-block" >Đã bị Block</div>
                                         </th>
                                         <th>
                                             <div class="table__account-block" >Lượng Xu</div>
@@ -88,9 +85,6 @@
                                             <th>
                                                 <div class="table__account-cnt" >${counter}</div>
                                             </th>
-                                            <th class="cover__table-id">
-                                                <div class="table__account-id" style="padding-left: 5px;">${o.accid}</div>
-                                            </th>
                                             <th>
                                                 <div class="table__account-name">${o.username}</div>
                                             </th>
@@ -100,7 +94,7 @@
                                             <th>
                                                 <div class="table__account-admin" style="color:
                                                      <c:choose>
-                                                         <c:when test="${o.roleid eq 1}">rgb(241, 176, 64)</c:when>
+                                                         <c:when test="${o.roleid eq 1}">green</c:when>
                                                          <c:when test="${o.roleid eq 2}">blue</c:when>
                                                          <c:when test="${o.roleid eq 3}">red</c:when>
                                                          <c:otherwise>black</c:otherwise>
@@ -126,10 +120,10 @@
                                                 <div class="table__account-block" style="color: ${o.isBlock eq 1 ? 'red' : '#24bb00'};">
                                                     <c:choose>
                                                         <c:when test="${o.isBlock eq 1}">
-                                                            Blocked
+                                                            Có
                                                         </c:when>
                                                         <c:when test="${o.isBlock eq 0}">
-                                                            No
+                                                            Không
                                                         </c:when>
                                                         <c:otherwise>
                                                             Unknown State
@@ -149,7 +143,7 @@
                                                 </div>
 
                                                 <div class="table__account-action">
-                                                    <a href="" onclick="doBlock('${o.accid}')">Block</a>                                                  
+                                                    <a onclick="doBlock('${o.accid}')">Block</a>                                                  
                                                 </div>
                                             </th>
                                         </tr>
@@ -170,9 +164,10 @@
     </div>
     <script type="text/javascript">
         function doBlock(id) {
-            if (confirm("Are u sure to block this Account with id = " + id)) {
+            if (confirm("Are you sure you want to block this Account with id = " + id)) {
                 window.location = "blockAcc?accID=" + id;
             }
+            return false;
         }
         // Lấy thẻ cần ẩn đi sau một khoảng thời gian
         var messageElement = document.querySelector('.home__header-mesage-del');

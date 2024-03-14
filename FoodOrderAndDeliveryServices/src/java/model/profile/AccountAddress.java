@@ -9,19 +9,28 @@ package model.profile;
  * @author admin
  */
 public class AccountAddress {
-    private int acc_id;
+    private int address_id, acc_id ;
     private String nickname, phone_address, address, note, status;
 
     public AccountAddress() {
     }
 
-    public AccountAddress(int acc_id, String nickname, String phone_address, String address, String note, String status) {
+    public AccountAddress(int address_id, int acc_id, String nickname, String phone_address, String address, String note, String status) {
+        this.address_id = address_id;
         this.acc_id = acc_id;
         this.nickname = nickname;
         this.phone_address = phone_address;
         this.address = address;
         this.note = note;
         this.status = status;
+    }
+
+    public int getAddress_id() {
+        return address_id;
+    }
+
+    public void setAddress_id(int address_id) {
+        this.address_id = address_id;
     }
 
     public int getAcc_id() {
@@ -74,8 +83,7 @@ public class AccountAddress {
 
     @Override
     public String toString() {
-        return "AccountAddress{" + "acc_id=" + acc_id + ", nickname=" + nickname + ", phone_address=" + phone_address + ", address=" + address + ", note=" + note + ", status=" + status + '}';
+        return "AccountAddress{" + "address_id=" + address_id + ", acc_id=" + acc_id + ", nickname=" + nickname + ", phone_address=" + phone_address + ", address=" + address + ", note=" + note + ", status=" + status + '}';
     }
-    
-     
+ 
 }

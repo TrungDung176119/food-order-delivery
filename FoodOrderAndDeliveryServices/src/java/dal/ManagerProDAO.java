@@ -81,9 +81,16 @@ public class ManagerProDAO extends DBContext {
         return false;
     }
 
-    public List<Product> searchbyCondition(String name) {
+    public List<Product> searchbyCondition(String name, int s_id) {
         List<Product> list = new ArrayList<>();
         String query = "select p.pid, s.store_name as seller_name , p.[image], p.title, p.old_price,\n"
+                + "p.current_price, p.amount_of_sold, p.number_in_stock, p.[status],\n"
+                + "p.describe, p.rating,p.category_id as cid, c.[name] as cname\n"
+                + "from Product p join Category c on p.category_id = c.id\n"
+                + "join Seller s on p.seller_id = s.seller_id\n"
+                + "where p.title like ? and s.seller_id = ?\n"
+                + "ORDER BY p.amount_of_sold DESC";
+        String query2 = "select p.pid, s.store_name as seller_name , p.[image], p.title, p.old_price,\n"
                 + "p.current_price, p.amount_of_sold, p.number_in_stock, p.[status],\n"
                 + "p.describe, p.rating,p.category_id as cid, c.[name] as cname\n"
                 + "from Product p join Category c on p.category_id = c.id\n"
@@ -91,8 +98,15 @@ public class ManagerProDAO extends DBContext {
                 + "where p.title like ?\n"
                 + "ORDER BY p.amount_of_sold DESC";
         try {
-            ps = connection.prepareStatement(query);
-            ps.setString(1, "%" + name.trim() + "%");
+
+            if (s_id == 0) {
+                ps = connection.prepareStatement(query2);
+                ps.setString(1, "%" + name.trim() + "%");
+            } else {
+                ps = connection.prepareStatement(query);
+                ps.setString(1, "%" + name.trim() + "%");
+                ps.setInt(2, s_id);
+            }
             rs = ps.executeQuery();
             while (rs.next()) {
                 Product p = new Product();

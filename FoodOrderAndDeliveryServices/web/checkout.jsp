@@ -172,42 +172,65 @@
         <!-- container checkout -->
         <div  class="container-checkout container">
             <!-- checkout form address -->
-            <div class="box-checkout checkout-form" style="width: 32.334%;">
-                <div class="checkout-form-title">
-                    <i class="fa-solid fa-location-dot"></i>&nbsp;
-                    Địa Chỉ Của Bạn
-                </div>
-                <form action="showcheckout" method="post" class="checkout-input-group">
-                    <div class="checkout-input-field" style="margin-top: 0;">
-                        <input required  class="input-box" type="text" name="logName" value="${accd.nickname}">
-                        <label for="logName">Họ và tên: </label>
+            <c:choose>
+                <c:when test="${empty listA}">
+                    <div class="box-checkout checkout-form" style="width: 32.334%;">
+                        <div class="checkout-form-title">
+                            <i class="fa-solid fa-location-dot"></i>&nbsp;
+                            Địa Chỉ Của Bạn
+                        </div>
+                        <form action="showcheckout" method="post" class="checkout-input-group">
+                            <div class="checkout-input-field" style="margin-top: 0;">
+                                <input required  class="input-box" type="text" name="logName" value="${accd.nickname}">
+                                <label for="logName">Họ và tên: </label>
+                            </div>
+                            <div class="checkout-input-field">
+                                <input required class="input-box" value="${accd.email}" type="email" placeholder="...@gmail.com" name="logEmail">
+                                <label for="logEmail">Email:</laDebel>
+                            </div>
+                            <div class="checkout-input-field">
+                                <input required class="input-box" value="${accd.phone}" type="number" name="logPhone" min="10">
+                                <label for="logPhone">Số điện thoại: </label>
+                            </div>
+                            <div class="checkout-input-field">
+                                <input required class="input-box" value="${accAddress.address}" type="text" name="logAddress">
+                                <label for="logAddress">Địa chỉ: </label>
+                            </div>
+                            <div class="checkout-input-field" style="">
+                                <input required class="input-box" style="color: blue" value="Bạn không cần nhập thông tin vào ô này" type="text" name="logDetailAddr">
+                                <label for="logDetailAddr">Địa chỉ cụ thể: </label>
+                            </div>
+                            <div class="checkout-input-field">
+                                <textarea required class="input-box textarea-note" type="text" name="logNote">${accAddress.note}</textarea>
+                                <label for="logNote">Ghi chú: </label>
+                            </div>
+                            <div class="checkout-flex ">
+                                <span></span>
+                                <button type="submit" name="action" value="update_address"class="btn__save btn__checkout">Cập Nhật</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="checkout-input-field">
-                        <input required class="input-box" value="${accd.email}" type="email" placeholder="...@gmail.com" name="logEmail">
-                        <label for="logEmail">Email:</laDebel>
+                </c:when>
+                <c:otherwise>
+                    <div class="box-checkout address-list" style="width: 32.334%;">
+                        <div class="checkout-form-title">
+                            <i class="fa-solid fa-location-dot"></i>&nbsp;
+                            Danh sách Địa Chỉ
+                        </div>
+                        <div class="address-list">
+                            <c:forEach var="o" items="${listA}">
+                                <div class="address-card" onclick="selectAddress('<c:out value="${o.address_id}" />')">
+                                    <p><strong>Tên người nhận:</strong> ${o.nickname}</p>
+                                    <p><strong>Số điện thoại:</strong> ${o.phone_address}</p>
+                                    <p><strong>Địa chỉ:</strong> ${o.address}</p>
+                                    <p><strong>Địa chỉ cụ thể:</strong> ${o.note}</p>
+                                    <p><strong>Loại địa chỉ:</strong> ${o.status}</p>
+                                </div>
+                            </c:forEach>
+                        </div>
                     </div>
-                    <div class="checkout-input-field">
-                        <input required class="input-box" value="${accd.phone}" type="number" name="logPhone" min="10">
-                        <label for="logPhone">Số điện thoại: </label>
-                    </div>
-                    <div class="checkout-input-field">
-                        <input required class="input-box" value="${accAddress.address}" type="text" name="logAddress">
-                        <label for="logAddress">Địa chỉ: </label>
-                    </div>
-                    <div class="checkout-input-field" style="">
-                        <input required class="input-box" style="color: blue" value="Bạn không cần nhập thông tin vào ô này" type="text" name="logDetailAddr">
-                        <label for="logDetailAddr">Địa chỉ cụ thể: </label>
-                    </div>
-                    <div class="checkout-input-field">
-                        <textarea required class="input-box textarea-note" type="text" name="logNote">${accAddress.note}</textarea>
-                        <label for="logNote">Ghi chú: </label>
-                    </div>
-                    <div class="checkout-flex ">
-                        <span></span>
-                        <button type="submit" name="action" value="update_address"class="btn__save btn__checkout">Cập Nhật</button>
-                    </div>
-                </form>
-            </div>
+                </c:otherwise>
+            </c:choose>
 
             <div style="display: flex">
                 <!-- checkout delivery  -->
@@ -349,6 +372,13 @@
                                     event.preventDefault();
                                     alert("Vui lòng chọn phương thức thanh toán và vận chuyển.");
                                 }
+                            }
+                            function selectAddress(addressId) {
+                                // Update the hidden input field value with the selected address ID
+                                document.getElementById("selectedAddressId").value = addressId;
+
+                                // Optionally, you can submit the form automatically after selecting an address
+                                document.querySelector('.checkout-input-group').submit();
                             }
 </script>
 

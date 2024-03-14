@@ -9,6 +9,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.profile.Account;
 import model.profile.AccountAddress;
 import model.profile.AccountDetail;
@@ -135,26 +137,41 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    public boolean editAddress(final String TYPE_ACTION, int accid, String nickname, String phone_addr, String address, String note, String status) {
+    public boolean manageAddress(final String TYPE_ACTION, int accid, String nickname, String phone_addr, String address, String note, String status, String address_id) {
 
         String query = "";
         if (TYPE_ACTION.equals(ConstAccount.ACTION_INSERT)) {
-            query = "INSERT INTO Account_Address ( nickname, phone_addr, address, note, status, acc_id)\n"
-                    + "VALUES ( ?, ?, ?, ?, ?, ?)";
+            query = "INSERT INTO [dbo].[Account_Address]([acc_id], [nickname], [phone_addr], [address], [note], [status])\n"
+                    + "     VALUES(?, ?, ?, ?, ?, ?)";
         } else if (TYPE_ACTION.equals(ConstAccount.ACTION_UPDATE)) {
-            query = "UPDATE Account_Address SET nickname = ?, phone_addr = ?, address = ?, note = ?, status = ?\n"
-                    + "WHERE acc_id = ?";
+            query = "UPDATE [dbo].[Account_Address]\n"
+                    + "   SET [acc_id] = ?\n"
+                    + "      ,[nickname] = ?\n"
+                    + "      ,[phone_addr] = ?\n"
+                    + "      ,[address] = ?\n"
+                    + "      ,[note] = ?\n"
+                    + "      ,[status] = ?\n"
+                    + " WHERE [address_id] = ?";
+        } else if (TYPE_ACTION.equals(ConstAccount.ACTION_DELETE)) {
+            query = "DELETE FROM [dbo].[Account_Address]\n"
+                    + "      WHERE [address_id] = ?";
         }
 
         try {
             ps = connection.prepareStatement(query);
-            ps.setString(1, nickname);
-            ps.setString(2, phone_addr);
-            ps.setString(3, address);
-            ps.setString(4, note);
-            ps.setString(5, status);
-            ps.setInt(6, accid);
-
+            if (TYPE_ACTION.equals(ConstAccount.ACTION_DELETE)) {
+                ps.setString(1, address_id);
+            } else {
+                ps.setInt(1, accid);
+                ps.setString(2, nickname);
+                ps.setString(3, phone_addr);
+                ps.setString(4, address);
+                ps.setString(5, note);
+                ps.setString(6, status);
+                if (TYPE_ACTION.equals(ConstAccount.ACTION_UPDATE)) {
+                    ps.setString(7, address_id);
+                }
+            }
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -262,8 +279,44 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
-    public AccountAddress getAccAddressByid(int accid) {
-        String query = ConstAccount.QUERY_SELECT_ACCOUNT_ADDRESS + accid;
+    public List<AccountAddress> getAllAccountAddress(int accid) {
+        List<AccountAddress> list = new ArrayList<>();
+        String query = "SELECT [address_id], [acc_id], [nickname], [phone_addr], [address], [note], [status]\n"
+                + "FROM [dbo].[Account_Address]\n"
+                + "WHERE [acc_id] = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, accid);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                AccountAddress a = new AccountAddress(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7)
+                );
+                list.add(a);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
+    public AccountAddress getAccAddressByAddressid(String address_id) {
+        String query = ConstAccount.QUERY_SELECT_ACCOUNT_ADDRESS + address_id;
 
         try {
             ps = connection.prepareStatement(query);
@@ -271,11 +324,12 @@ public class AccountDAO extends DBContext {
 
             if (rs.next()) {
                 return new AccountAddress(rs.getInt(1),
-                        rs.getString(2),
+                        rs.getInt(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6));
+                        rs.getString(6),
+                        rs.getString(7));
             }
 
         } catch (SQLException e) {
@@ -421,31 +475,6 @@ public class AccountDAO extends DBContext {
 
     public static void main(String[] args) {
         AccountDAO ad = new AccountDAO();
-
-//        Account acc = ad.login("admin", "password123");
-//        if (acc != null) {
-//            System.out.println("ok");
-//        } else {
-//            System.out.println("no");
-//        }
-//        boolean a = ad.editProfile(ConstAccount.ACCTION_UPDATE, 2, "avdvsdv", "â", "sac", "sa", 0, new Date(12 - 11 - 2003));
-//        AccountAddress a = ad.getAccAddressByid(3);
-//        if (a) {
-//            System.out.println(a);
-//        } else {
-//            System.out.println("no");
-//        }
-//        AccountDetail acc = ad.getAccDetailByEmail("hoanpham12112003@gmail.com", 0);
-//        if (acc != null) {
-//            System.out.println(acc);
-//        } else {
-//            System.out.println("null");
-//        }
-//        boolean change = ad.changePassword(11, "123");
-//        if (change) {
-//            System.out.println("ok");
-//        } else {
-//            System.out.println("none");
-//        }
+        ad.manageAddress(ConstAccount.ACTION_DELETE, 0, null, null, null, null, null, "3");
     }
 }

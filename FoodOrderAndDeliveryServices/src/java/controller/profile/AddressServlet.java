@@ -16,12 +16,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
 import java.util.List;
 import model.cart.Item;
 import model.product.Product;
 import model.profile.Account;
-import model.profile.AccountAddress;
 import model.profile.AccountAddress;
 import utils.Cart;
 import utils.Validation;
@@ -79,9 +77,6 @@ public class AddressServlet extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
-
-        // this part for push list product on to cart
-//        ProductDAO dao = new ProductDAO();
         List<Product> listProduct = ProductDAO.gI().getProductByType(constant.ConstHome.TODAY_SUGGESTION, 0);
         Cookie[] arr = request.getCookies();
         String txt = "";
@@ -104,19 +99,18 @@ public class AddressServlet extends HttpServlet {
             amountItem = 0;
         }
         request.setAttribute("amount", amountItem);
-
-//        AccountDAO adao = new AccountDAO();
-        AccountAddress accd = AccountDAO.gI().getAccAddressByid(acc.getAccid());
-        try {
+        
+        String address_id = request.getParameter("address_id");
+        AccountAddress accd = AccountDAO.gI().getAccAddressByAddressid(address_id);
+        List<AccountAddress> listA = AccountDAO.gI().getAllAccountAddress(acc.getAccid());
             if (accd != null) {
                 request.setAttribute("AccAddr", accd);
+                request.setAttribute("listA", listA);
                 request.getRequestDispatcher("address.jsp").forward(request, response);
             } else {
-                response.sendRedirect("address.jsp");
+                request.setAttribute("listA", listA);
+                request.getRequestDispatcher("address.jsp").forward(request, response);
             }
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -144,34 +138,27 @@ public class AddressServlet extends HttpServlet {
         String logAddress = request.getParameter("addr");
         String logNote = request.getParameter("note");
         String status = request.getParameter("status");
+        String address_id = request.getParameter("addressid");
         String ms = "";
 
-//        AccountDAO adao = new AccountDAO();
         try {
-            boolean isExistAcc = AccountDAO.gI().isAccountExist(acc.getAccid(), ConstAccount.IS_ACCOUNT_ADDRESS);
 
             if (!Validation.isValidPhoneNumber(logPhone)) {
                 ms = "Vui lòng nhập đúng định dạng số điện thoại.";
-            } else if (isExistAcc) {
-                boolean update = AccountDAO.gI().editAddress(ConstAccount.ACTION_UPDATE, acc.getAccid(), logName, logPhone, logAddress, logNote, status);
-                if (update) {
-                    ms = "Cập nhật hồ sơ thành công.";
-                } else {
-                    ms = "Có lỗi xảy ra. Vui lòng thực hiên lại.";
-                }
-            } else if (!isExistAcc) {
-                boolean insert = AccountDAO.gI().editAddress(ConstAccount.ACTION_INSERT, acc.getAccid(), logName, logPhone, logAddress, logNote, status);
-                if (insert) {
-                    ms = "Cập nhật hồ sơ thành công.";
-                } else {
-                    ms = "Có lỗi xảy ra. Vui lòng thực hiên lại.";
-
-                }
+            } else if (address_id == null || address_id.isEmpty()) {
+               
+                boolean insert = AccountDAO.gI().manageAddress(ConstAccount.ACTION_INSERT, acc.getAccid(), logName, logPhone, logAddress, logNote, status, null);
+                ms = insert ? "Thêm địa chỉ thành công." : "Có lỗi xảy ra. Vui lòng thực hiện lại.";
+            } else{
+                 boolean update = AccountDAO.gI().manageAddress(ConstAccount.ACTION_UPDATE, acc.getAccid(), logName, logPhone, logAddress, logNote, status, address_id);
+                ms = update ? "Sửa địa chỉ thành công." : "Có lỗi xảy ra. Vui lòng thực hiện lại.";
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.setAttribute("msSuccess", ms);
+        List<AccountAddress> listA = AccountDAO.gI().getAllAccountAddress(acc.getAccid());
+        request.setAttribute("listA", listA);
+        request.setAttribute("ms", ms);
         request.getRequestDispatcher("address.jsp").forward(request, response);
     }
 

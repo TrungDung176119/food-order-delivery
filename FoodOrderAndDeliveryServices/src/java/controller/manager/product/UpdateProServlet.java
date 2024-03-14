@@ -110,8 +110,7 @@ public class UpdateProServlet extends HttpServlet {
         String image = request.getParameter("image");
         String title = request.getParameter("title");
         int cate_id = Integer.parseInt(request.getParameter("category"));
-        int current_price = Integer.parseInt(request.getParameter("current_price"));
-        int old_price = Integer.parseInt(request.getParameter("old_price"));
+        int current_price = Integer.parseInt(request.getParameter("new_price"));
         int in_stock = Integer.parseInt(request.getParameter("in_stock"));
         String status = request.getParameter("status");
         String describe = request.getParameter("describe");
@@ -120,13 +119,14 @@ public class UpdateProServlet extends HttpServlet {
 
         try {
             if (productid == null || productid.isEmpty()) {
-                boolean insert = ManagerProDAO.gI().manageProduct("INSERT", 0, cate_id, s_id, image, title, old_price, current_price, 0, in_stock, "Sale", describe, 0);
+                boolean insert = ManagerProDAO.gI().manageProduct("INSERT", 0, cate_id, s_id, image, title, 0, current_price, 0, in_stock, status, describe, 0);
                 ms = insert ? "Thêm sản phẩm thành công." : "Có lỗi xảy ra. Vui lòng thực hiện lại.";
             } else {
                 int pid = Integer.parseInt(productid);
                 int sold = Integer.parseInt(request.getParameter("sold"));
                 float rating = Float.parseFloat(request.getParameter("rating"));
-                boolean update = ManagerProDAO.gI().manageProduct("UPDATE", pid, cate_id, s_id, image, title, old_price, current_price, sold, in_stock, "Sale", describe, rating);
+                int old_price = Integer.parseInt(request.getParameter("current_price"));
+                boolean update = ManagerProDAO.gI().manageProduct("UPDATE", pid, cate_id, s_id, image, title, old_price, current_price, sold, in_stock, status, describe, rating);
                 ms = update ? "Cập nhật sản phẩm thành công." : "Có lỗi xảy ra. Vui lòng thực hiện lại.";
             }
         } catch (NumberFormatException e) {

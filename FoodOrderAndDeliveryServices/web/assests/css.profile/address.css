@@ -63,3 +63,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     display: flex;
     margin-top: 10px;
 }
+.address-list {
+    width: 300px; /* Adjust width as needed */
+    float: right; /* Align to the right side of the form */
+}
+
+.address-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.address-details p {
+    margin: 5px 0;
+}
+
+.address-actions button {
+    margin-right: 5px;
+}

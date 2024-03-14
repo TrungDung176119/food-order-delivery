@@ -127,9 +127,28 @@ public class SearchProServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("acc");
+        if (acc == null) {
+            request.setAttribute("ms", "message");
+            request.setAttribute("message", "Session đã kết thúc. Vui lòng đăng nhập tài khoản.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
+        } else if (acc.getRoleid() == 1) {
+            request.setAttribute("ms", "message");
+            request.setAttribute("message", "Tài khoản của bạn không có quyền vào trang này.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
+        }
         String title = request.getParameter("query");
+        List<Product> listp = new ArrayList<>();
         String ms = "";
-        List<Product> listp = ManagerProDAO.gI().searchbyCondition(title);
+        if (acc.getRoleid() == 2) {
+            int s_id = ManagerSellerDAO.gI().getSellerByAccId(acc.getAccid()).getSeller_id();
+            listp = ManagerProDAO.gI().searchbyCondition(title, s_id);
+        }else if(acc.getRoleid() == 3){
+            listp = ManagerProDAO.gI().searchbyCondition(title, 0);
+        }
         request.setAttribute("listPro", listp);
         request.setAttribute("sum", listp.size());
         List<Category> listC = ProductDAO.gI().getAllCategory();

@@ -131,16 +131,9 @@ public class ShowCheckoutServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-
-        // Ipdate account address take goods
-        AccountDAO adao = new AccountDAO();
-        AccountDetail accd = adao.getAccDetailByid(acc.getAccid());
-        AccountAddress accAddress = adao.getAccAddressByid(acc.getAccid());
-        if (accd != null) {
-            request.setAttribute("accd", accd);
-        }
-        if (accAddress != null) {
-            request.setAttribute("accAddress", accAddress);
+        List<AccountAddress> listA = AccountDAO.gI().getAllAccountAddress(acc.getAccid());
+        if (listA != null) {
+            request.setAttribute("listA", listA);
         }
         request.setAttribute("delivery", delivery);
         request.setAttribute("ms", ms);
@@ -194,7 +187,7 @@ public class ShowCheckoutServlet extends HttpServlet {
         String url = "";
         // Ipdate account address take goods
         AccountDetail accd = AccountDAO.gI().getAccDetailByid(acc.getAccid());
-        AccountAddress accAddress = AccountDAO.gI().getAccAddressByid(acc.getAccid());
+        AccountAddress accAddress = AccountDAO.gI().getAccAddressByAddressid(null);
         if (accd != null) {
             request.setAttribute("accd", accd);
         }
@@ -221,32 +214,16 @@ public class ShowCheckoutServlet extends HttpServlet {
                     ms = "Tài khoản email của bạn đã được người khác sử dụng.";
                     url = CHECKOUT_PAGE;
                 } else {
-                    boolean isExistAcc = AccountDAO.gI().isAccountExist(acc.getAccid(), ConstAccount.IS_ACCOUNT_DETAIL);
-                    if (isExistAcc) {
-                        boolean update = AccountDAO.gI().editProfile(ConstAccount.ACTION_UPDATE, acc.getAccid(), logName, "", logEmail, logPhone, 0, null);
-                        if (update) {
-                            ms = "Cập nhật hồ sơ thành công.";
-                        } else {
-                            ms = "Có lỗi xảy ra. Vui lòng thực hiên lại.";
-                        }
-                    } else {
-                        boolean insert = AccountDAO.gI().editProfile(ConstAccount.ACTION_INSERT, acc.getAccid(), logName, "", logEmail, logPhone, 0, null);
-                        if (insert) {
-                            ms = "Cập nhật hồ sơ thành công.";
-                        } else {
-                            ms = "Có lỗi xảy ra. Vui lòng thực hiên lại.";
-                        }
-                    }
                     boolean isExistAdd = AccountDAO.gI().isAccountExist(acc.getAccid(), ConstAccount.IS_ACCOUNT_ADDRESS);
                     if (isExistAdd) {
-                        boolean update = AccountDAO.gI().editAddress(ConstAccount.ACTION_UPDATE, acc.getAccid(), logName, logPhone, logAddress, logNote, "");
+                        boolean update = AccountDAO.gI().manageAddress(ConstAccount.ACTION_UPDATE, acc.getAccid(), logName, logPhone, logAddress, logNote, "", null);
                         if (update) {
                             ms = "Cập nhật địa chỉ thành công.";
                         } else {
                             ms = "Có lỗi xảy ra. Vui lòng thực hiên lại.";
                         }
                     } else {
-                        boolean insert = AccountDAO.gI().editAddress(ConstAccount.ACTION_INSERT, acc.getAccid(), logName, logPhone, logAddress, logNote, "");
+                        boolean insert = AccountDAO.gI().manageAddress(ConstAccount.ACTION_INSERT, acc.getAccid(), logName, logPhone, logAddress, logNote, "", null);
                         if (insert) {
                             ms = "Cập nhật địa chỉ thành công.";
                         } else {

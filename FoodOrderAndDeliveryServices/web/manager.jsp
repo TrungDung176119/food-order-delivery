@@ -46,9 +46,11 @@
                             <div class="home__header-mesage-del">
                                 <span>${ms}</span>
                             </div>
-                            <div class="home__header-right">
-                                <a href="updatePro" class="btn btn__new"> + Thêm 1 sản phẩm mới </a>
-                            </div>
+                            <c:if test="${sessionScope.acc.getRoleid() == 2}">
+                                <div class="home__header-right">
+                                    <a href="updatePro" class="btn btn__new"> + Thêm 1 sản phẩm mới </a>
+                                </div>
+                            </c:if>
 
                         </div>
                         <div class="header-address__list">
@@ -61,7 +63,6 @@
                             <select class="header__navbar" id="categorySelect2" onchange="redirectToServlet(this)">
                                 <option value="all">Tất cả trạng thái</option>
                                 <option value="Yêu thích">Yêu thích</option>
-                                <option value="Yêu thích+">Yêu thích +</option>
                                 <option value="Giảm giá">Giảm giá</option>
                                 <option value="Khuyến mãi">Khuyến Mãi</option>
                                 <option value="Ẩn">Ẩn</option>
@@ -101,9 +102,11 @@
                                             <th>
                                                 <div class="table__product-title-category">Trạng thái</div>
                                             </th>
+                                            <c:if test="${sessionScope.acc.getRoleid() == 2}">
                                             <th>
                                                 <div class="table__product-title-action " style="min-width: 120px;">Thao tác</div>
                                             </th>
+                                            </c:if>
                                         </tr>
 
                                         <c:forEach items="${listPro}" var="o">
@@ -135,6 +138,7 @@
                                                 <td>
                                                     <div class="table__product-category">${o.status}</div>
                                                 </td>
+                                                <c:if test="${sessionScope.acc.getRoleid() == 2}">
                                                 <td>
                                                     <div class="table__product-action">
                                                         <a href="updatePro?pid=${o.pid}">Update</a>
@@ -152,13 +156,16 @@
                                                                </c:forEach>/>
                                                     </div>
                                                 </td>
+                                                </c:if>
                                             <input type="text" name="m_id" hidden="" value="${requestScope.m_id}">
                                             </tr>
                                         </c:forEach>
                                     </table>
                                 </div>
+                                <c:if test="${sessionScope.acc.getRoleid() == 2}">
                                 <a href="addall?m_id=${requestScope.m_id}" style="margin-left: 72%" class="btn btn__new">Add All Product to Menu</a>
                                 <input type="submit" class="btn btn__new"  value="Add to Menu" />
+                                </c:if>
                             </form>
                         </div>
 

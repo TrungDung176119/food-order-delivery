@@ -14,7 +14,7 @@ public interface ConstAccount {
 
     public static final String QUERY_SELECT_ACCOUNT_DETAIL = "Select * from ACCOUNT_DETAILS where acc_id = ";
 
-    public static final String QUERY_SELECT_ACCOUNT_ADDRESS = "Select * from ACCOUNT_ADDRESS where acc_id = ";
+    public static final String QUERY_SELECT_ACCOUNT_ADDRESS = "Select * from ACCOUNT_ADDRESS where address_id = ";
 
     public static final String IS_ACCOUNT = "ACCOUNT";
 
@@ -25,6 +25,8 @@ public interface ConstAccount {
     public static final String ACTION_INSERT = "INSERT";
 
     public static final String ACTION_UPDATE = "UPDATE";
+    
+    public static final String ACTION_DELETE = "DELETE";
 
     public static final int ROLE_CUSTOMER = 1;
 

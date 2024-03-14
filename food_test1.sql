@@ -1,16 +1,16 @@
 ﻿
-create database food_test7
+create database food_test10
 
-use food_test7
+use food_test10
 
 CREATE TABLE [Role](
-	[role_id] int not null identity(1,1) primary key,
+	[role_id] INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[role_name] nvarchar(32),
 );
 
 CREATE TABLE Account (
-	[acc_id] INT IDENTITY(1,1) PRIMARY KEY,
-	[username] NVARCHAR(32),  -- max length name is 32
+	[acc_id] INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	[username] NVARCHAR(120),  
 	[password] NVARCHAR(60),  -- ...
 	[role_id] INT,   -- user: 1 (default), seller: 2, admin: 3
 	[is_block] INT,   --  block = 1
@@ -34,6 +34,7 @@ CREATE TABLE Account_Details (
 
 
 CREATE TABLE Account_Address (
+    address_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     acc_id int,
     nickname NVARCHAR(MAX),
     phone_addr NVARCHAR(15),           -- phone to receive order
@@ -45,12 +46,12 @@ CREATE TABLE Account_Address (
 );
 
 CREATE TABLE Category (
-    id INT PRIMARY KEY IDENTITY(1,1),
+    id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     [name] NVARCHAR(255)
 );
 
 CREATE TABLE Seller (
-	seller_id INT PRIMARY KEY IDENTITY(1,1),
+	seller_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	acc_id INT,
 	phone_store NVARCHAR(20),
 	email_store NVARCHAR(120),
@@ -65,9 +66,9 @@ CREATE TABLE Seller (
 	CONSTRAINT FK_Seller_Account FOREIGN KEY (acc_id)
 	REFERENCES Account (acc_id)
 );
-select * from seller
+
 CREATE TABLE Product (
-    pid INT PRIMARY KEY IDENTITY(1,1),
+    pid INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     category_id INT,
 	seller_id INT,
     [image] NVARCHAR(MAX),
@@ -90,7 +91,7 @@ CREATE TABLE Product (
 
 
 CREATE TABLE Orders (           -- Đơn hàng
-    order_id INT PRIMARY KEY IDENTITY(1,1),
+    order_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	acc_id INT,
 	seller_id INT,
     nickname NVARCHAR(32),      -- Tên khách hàng
@@ -113,7 +114,7 @@ CREATE TABLE Orders (           -- Đơn hàng
 );
 
 CREATE TABLE OrderDetail (
-	detail_id INT PRIMARY KEY IDENTITY(1,1),
+	detail_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     order_id INT, -- ID đơn đặt hàng
 	product_id INT,     -- ID sản phẩm
     product_title NVARCHAR(MAX), -- title sản phẩm
@@ -136,7 +137,7 @@ CREATE TABLE OrderDetail (
 );
 
 CREATE TABLE FeedBack (
-	feed_id INT PRIMARY KEY IDENTITY(1,1),
+	feed_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	product_id INT,
 	cate_name NVARCHAR(255),
 	acc_id INT,
@@ -155,7 +156,7 @@ CREATE TABLE FeedBack (
 );
 
 CREATE TABLE Notifications (
-    notify_id INT PRIMARY KEY IDENTITY(1,1),
+    notify_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     acc_id INT,  -- ID của người dùng nhận thông báo
 	[image] NVARCHAR(MAX),
 	[title] NVARCHAR(MAX),
@@ -167,13 +168,9 @@ CREATE TABLE Notifications (
     CONSTRAINT FK_Notifications_Account FOREIGN KEY (acc_id)
     REFERENCES Account (acc_id)
 );
-/*
-INSERT INTO Notifications (acc_id, [image], [title], [message], [timestamp], [is_read], [is_hide], [url])
-VALUES (, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?)
-*/
 
 CREATE TABLE SearchHistory (
-    his_search_id INT PRIMARY KEY IDENTITY(1,1),
+    his_search_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     acc_id INT,  -- ID của người dùng thực hiện tìm kiếm
     search_query NVARCHAR(MAX),  -- Truy vấn tìm kiếm
     search_timestamp DATETIME,  -- Thời điểm thực hiện tìm kiếm
@@ -182,7 +179,7 @@ CREATE TABLE SearchHistory (
 );
 
 CREATE TABLE Menu (
-    menu_id INT PRIMARY KEY IDENTITY(1,1),
+    menu_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     seller_id INT,
 	[status] int,
     menu_date DATE,
@@ -190,13 +187,34 @@ CREATE TABLE Menu (
 );
 
 CREATE TABLE Menu_Item (
-	menu_item_id INT PRIMARY KEY IDENTITY(1,1),
+	menu_item_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     menu_id INT,
     product_id INT,
 	FOREIGN KEY (product_id) REFERENCES Product(pid),
     FOREIGN KEY (menu_id) REFERENCES Menu(menu_id),
 );
 
+CREATE TABLE Report_Types (
+    report_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    report_name NVARCHAR(255),
+    [description] NVARCHAR(MAX)
+);
+
+CREATE TABLE Report_Requests (
+    request_id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    acc_id INT,  -- ID of the user requesting the report
+    report_id INT,  -- ID of the requested report type
+    report_description NVARCHAR(MAX),
+    request_timestamp DATETIME,
+    [status] INT,  -- Status of the report request (e.g., pending, accepted, rejected)
+    proof NVARCHAR(MAX),  -- Proof associated with the report request
+    approver_id INT,  -- ID of the user who approved the report request
+
+    -- Add other relevant fields as needed
+    FOREIGN KEY (acc_id) REFERENCES Account(acc_id),
+    FOREIGN KEY (report_id) REFERENCES Report_Types(report_id),
+    FOREIGN KEY (approver_id) REFERENCES Account(acc_id)
+);
 
 INSERT INTO [Role] VALUES ('user'), ('seller'),('admin')
 
@@ -225,72 +243,67 @@ INSERT INTO [Seller] (acc_id, phone_store, email_store, address_store, store_nam
 (3, '0326644123', 'hoan@123', N'Quán ăn Thứ 1, Hà Nội Phố, Canteen số 1', N'HanoiPho', 5, '2023-05-23', 4.9, 120, 1, ''),
 (4, '0326415882', 'hoan@123', N'Quán ăn Thứ 2, Quán Simdo, Canteen số 1', N'Simdo', 5, '2021-11-23', 4.7, 120, 1, ''),
 (5, '0325545454', 'hoan@123', N' Quán ăn Thứ 3, Quán Quang Anh Canteen, Canteen số 1', N'Quang Anh Canteen', 5, '2023-08-23', 4.6, 120, 1, ''),
-(6, '0325454545', 'hoan@123', N' Quán ăn Thứ 4, Quán Daily Kebal Haus, Canteen số 1', N'Daily Kebal Haus', 5, '2023-12-23', 4.4, 120, 1, ''),
+(6, '0325454545', 'hoan@123', N' Quán ăn Thứ 4, Quán Daily Kebal Haus, Canteen số 1', N'Daily Kebal Haus', 5, '2023-12-23', 4.4, 120, 0, ''),
 (7, '0325454545', 'hoan@123', N' Quán ăn Thứ 5, Quán Mango, Canteen số 2', N'Mango', 5, '2022-11-23', 4.8, 100, 1, '');
 
-INSERT INTO [Seller] (acc_id, phone_store, email_store, address_store, store_name, number_of_foods, store_opentime, rating_store, follower) VALUES 
-(11, '0325454545', 'hoan123@gmail.com', N' Quán ăn Thứ 6, Quán Suga, Canteen số 2', N'Suga', 5, '2022-02-25', 4.8, 100);
-select * from Seller 
-update Seller set is_active = 0 where seller_id = 6
-
 INSERT INTO [dbo].[Product] ([category_id] ,[seller_id],[image], [title],[old_price] ,[current_price] ,[amount_of_sold] ,[number_in_stock] ,[status] ,[describe] ,[rating]) VALUES
-    (1, 1, 'https://cdn.tgdd.vn/2021/06/CookProduct/1200-1200x675.jpg',N'Cơm Rang Thập Cẩm', 45000, 35000, 0, 20,'Yêu thích','', 4.9  ),
-    (1, 1, 'https://static.vinwonders.com/production/com-rang-dua-bo-ha-noi-1.jpg',N'Cơm Rang Dưa Bò', 45000, 40000, 0, 20,'Yêu thích+','', 4.9  ),
-    (2, 1, 'https://cdn.tgdd.vn/Files/2018/04/01/1078873/nau-bun-bo-hue-cuc-de-tai-nha-tu-vien-gia-vi-co-san-202109161718049940.jpg',N'Bún Bò Huế', 65000, 52000, 0, 20,'Sale','', 4.9  ),
-    (2, 1, 'https://cdn.tgdd.vn/2021/04/CookProduct/1-1200x676-21.jpg',N'Bún Bò Cay Nhẹ', 48000, 42000, 0, 20,'Yêu thích','', 4.8 ),
-    (2, 1, 'https://daynauan.info.vn/wp-content/uploads/2020/04/bun-thai.jpg',N'Bún Bò Hải Sản Siêu Cay', 64000, 58000, 0, 20,'Yêu thích+','', 4.4 ),
-    (2, 1, 'https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250230038502.jpg',N'Phở Bò Nam Định', 42000, 35000, 0, 20,'Yêu thích','', 4.9 ),
-    (5, 1, 'https://thophat.com/wp-content/uploads/2022/03/BB-Chay-DB-640g-1.jpg', N'Bánh Bao Nóng', 22000, 14000, 0, 20,'Yêu thích','', 4.3 ),
-    (5, 1, 'https://images.getrecipekit.com/20230813061131-andy-20cooks-20-20roast-20pork-20banh-20mi.jpg?aspect_ratio=16:9&quality=90&',N'Bánh Mì Nhân Thịt Xông Khói', 32000, 25000, 0, 20,'Sale','', 4.2 ),
-    (3, 1, 'https://cdn.tgdd.vn/Files/2021/08/10/1374160/hoc-cach-pha-tra-sua-o-long-dai-loan-thom-ngon-chuan-vi-ai-cung-me-202108100039248020.jpg',N'Trà Sữa Truyền Thống', 42000, 35000, 0, 20,'Yêu thích+','', 4.9 ),
-    (2, 1, 'https://cdn.tgdd.vn/Files/2021/07/02/1365019/an-bao-lau-nay-ban-co-biet-bun-dau-mam-tom-la-dac-san-o-dau-202206021309408488.jpeg',N'Bún Đậu Mắm Tôm', 39000, 35000, 0, 20,'Yêu thích+','', 4.9 ),
-	(5, 1, 'https://chacanhatrangngoctan.com/wp-content/uploads/2021/08/cach-lam-banh-mi-que-ngon.jpg',N'Bánh Mỳ Que Kẹp Xúc Xích', 25000, 22500, 0, 20,'Yêu thích','', 4.9 ),
-    (5, 1, 'https://cdn.tgdd.vn/Files/2020/10/22/1301077/tuyet-chieu-lam-banh-mi-que-thit-cay-gion-rum-ngon-tai-te-202203142255016223.jpg',N'Bánh Mỳ Que Không Nhân', 12000, 9000, 0, 20,'Yêu thích+','', 4.9 ),
+    (1, 1, 'https://cdn.tgdd.vn/2021/06/CookProduct/1200-1200x675.jpg',N'Cơm Rang Thập Cẩm', 45000, 35000, 0, 20,N'Yêu thích','', 4.9  ),
+    (1, 1, 'https://static.vinwonders.com/production/com-rang-dua-bo-ha-noi-1.jpg',N'Cơm Rang Dưa Bò', 45000, 40000, 0, 20,N'Yêu thích','', 4.9  ),
+    (2, 1, 'https://cdn.tgdd.vn/Files/2018/04/01/1078873/nau-bun-bo-hue-cuc-de-tai-nha-tu-vien-gia-vi-co-san-202109161718049940.jpg',N'Bún Bò Huế', 65000, 52000, 0, 20,N'Giảm giá','', 4.9  ),
+    (2, 1, 'https://cdn.tgdd.vn/2021/04/CookProduct/1-1200x676-21.jpg',N'Bún Bò Cay Nhẹ', 48000, 42000, 0, 20,N'Yêu thích','', 4.8 ),
+    (2, 1, 'https://daynauan.info.vn/wp-content/uploads/2020/04/bun-thai.jpg',N'Bún Bò Hải Sản Siêu Cay', 64000, 58000, 0, 20,N'Yêu thích','', 4.4 ),
+    (2, 1, 'https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250230038502.jpg',N'Phở Bò Nam Định', 42000, 35000, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 1, 'https://thophat.com/wp-content/uploads/2022/03/BB-Chay-DB-640g-1.jpg', N'Bánh Bao Nóng', 22000, 14000, 0, 20,N'Yêu thích','', 4.3 ),
+    (5, 1, 'https://images.getrecipekit.com/20230813061131-andy-20cooks-20-20roast-20pork-20banh-20mi.jpg?aspect_ratio=16:9&quality=90&',N'Bánh Mì Nhân Thịt Xông Khói', 32000, 25000, 0, 20,N'Giảm giá','', 4.2 ),
+    (3, 1, 'https://cdn.tgdd.vn/Files/2021/08/10/1374160/hoc-cach-pha-tra-sua-o-long-dai-loan-thom-ngon-chuan-vi-ai-cung-me-202108100039248020.jpg',N'Trà Sữa Truyền Thống', 42000, 35000, 0, 20,N'Yêu thích','', 4.9 ),
+    (2, 1, 'https://cdn.tgdd.vn/Files/2021/07/02/1365019/an-bao-lau-nay-ban-co-biet-bun-dau-mam-tom-la-dac-san-o-dau-202206021309408488.jpeg',N'Bún Đậu Mắm Tôm', 39000, 35000, 0, 20,N'Yêu thích','', 4.9 ),
+	(5, 1, 'https://chacanhatrangngoctan.com/wp-content/uploads/2021/08/cach-lam-banh-mi-que-ngon.jpg',N'Bánh Mỳ Que Kẹp Xúc Xích', 25000, 22500, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 1, 'https://cdn.tgdd.vn/Files/2020/10/22/1301077/tuyet-chieu-lam-banh-mi-que-thit-cay-gion-rum-ngon-tai-te-202203142255016223.jpg',N'Bánh Mỳ Que Không Nhân', 12000, 9000, 0, 20,N'Yêu thích','', 4.9 ),
 
-    (5, 2, 'https://cdn.tgdd.vn/Files/2022/11/17/1487645/cach-nau-xoi-xeo-ngo-thom-ngon-deo-dep-mat-cho-bua-sang-202211171330393361.jpg',N'Xôi Xéo Siêu To Khổng Lồ', 35000, 28000, 0, 20,'Yêu thích','', 4.5 ),
-    (2, 2, 'https://i.ytimg.com/vi/C1P1Cw9J1-I/maxresdefault.jpg',N'Bún Riêu Cua ', 45000, 40000, 0, 20,'Yêu thích','', 4.8  ),
-    (2, 2, 'https://vcdn-giadinh.vnecdn.net/2021/01/02/Anh-6-7105-1609558348.jpg', N'Bún Mọc', 65000, 52000, 0, 20,'Sale','', 4.9  ),
-    (2, 2, 'https://cdn.tgdd.vn/Files/2020/04/03/1246339/cach-nau-bun-ca-ha-noi-thom-ngon-chuan-vi-khong-ta-13.jpg',N'Bún Cá', 48000, 42000, 0, 20,'Yêu thích','', 4.9 ),
-    (2, 2, 'https://daynauan.info.vn/wp-content/uploads/2020/04/bun-thai.jpg',N'Bún Bò Hải Sản Siêu Cay', 64000, 58000, 0, 20,'Yêu thích+','', 4.9 ),
-    (4, 2, 'https://cdn.tgdd.vn/Files/2017/03/22/963765/cach-lam-ga-ran-thom-ngon-8_760x450.jpg',N'Đùi Gà Rán Cỡ Lớn', 35000, 31900, 0, 20,'Sale','', 4.9 ),
-    (5, 2, 'https://thophat.com/wp-content/uploads/2022/03/BB-Chay-DB-640g-1.jpg', N'Bánh Bao Nóng', 22000, 14000, 0, 20,'Yêu thích','', 4.9 ),
-    (5, 2, 'https://statics.vinpearl.com/banh-gio-ha-noi-1_1685951846.jpg',N'Bánh Giò Nóng', 32000, 25000, 0, 20,'Yêu thích+','', 4.9 ),
-	(4, 2, 'https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/4/8/1032286/Recipe_1314.jpg',N'Mì Xào Thịt Bò', 39000, 32000, 0, 20,'Yêu thích+','', 4.9 ),
-    (5, 2, 'https://banhmiquedananglamvublog4338.edublogs.org/files/2022/09/z3744736924187_eb24b5778f10702d04836514b0f0dbba-1024x683.jpg',N'Bánh Mỳ Que Pate Chà Bông', 28000, 24000, 0, 20,'Yêu thích+','', 4.9 ),
-    (5, 2, 'https://chacanhatrangngoctan.com/wp-content/uploads/2021/08/cach-lam-banh-mi-que-ngon.jpg',N'Bánh Mỳ Que Kẹp Xúc Xích', 25000, 22500, 0, 20,'Yêu thích','', 4.9 ),
+    (5, 2, 'https://cdn.tgdd.vn/Files/2022/11/17/1487645/cach-nau-xoi-xeo-ngo-thom-ngon-deo-dep-mat-cho-bua-sang-202211171330393361.jpg',N'Xôi Xéo Siêu To Khổng Lồ', 35000, 28000, 0, 20,N'Yêu thích','', 4.5 ),
+    (2, 2, 'https://i.ytimg.com/vi/C1P1Cw9J1-I/maxresdefault.jpg',N'Bún Riêu Cua ', 45000, 40000, 0, 20,N'Yêu thích','', 4.8  ),
+    (2, 2, 'https://vcdn-giadinh.vnecdn.net/2021/01/02/Anh-6-7105-1609558348.jpg', N'Bún Mọc', 65000, 52000, 0, 20,N'Giảm giá','', 4.9  ),
+    (2, 2, 'https://cdn.tgdd.vn/Files/2020/04/03/1246339/cach-nau-bun-ca-ha-noi-thom-ngon-chuan-vi-khong-ta-13.jpg',N'Bún Cá', 48000, 42000, 0, 20,N'Yêu thích','', 4.9 ),
+    (2, 2, 'https://daynauan.info.vn/wp-content/uploads/2020/04/bun-thai.jpg',N'Bún Bò Hải Sản Siêu Cay', 64000, 58000, 0, 20,N'Yêu thích','', 4.9 ),
+    (4, 2, 'https://cdn.tgdd.vn/Files/2017/03/22/963765/cach-lam-ga-ran-thom-ngon-8_760x450.jpg',N'Đùi Gà Rán Cỡ Lớn', 35000, 31900, 0, 20,N'Giảm giá','', 4.9 ),
+    (5, 2, 'https://thophat.com/wp-content/uploads/2022/03/BB-Chay-DB-640g-1.jpg', N'Bánh Bao Nóng', 22000, 14000, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 2, 'https://statics.vinpearl.com/banh-gio-ha-noi-1_1685951846.jpg',N'Bánh Giò Nóng', 32000, 25000, 0, 20,N'Yêu thích','', 4.9 ),
+	(4, 2, 'https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/4/8/1032286/Recipe_1314.jpg',N'Mì Xào Thịt Bò', 39000, 32000, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 2, 'https://banhmiquedananglamvublog4338.edublogs.org/files/2022/09/z3744736924187_eb24b5778f10702d04836514b0f0dbba-1024x683.jpg',N'Bánh Mỳ Que Pate Chà Bông', 28000, 24000, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 2, 'https://chacanhatrangngoctan.com/wp-content/uploads/2021/08/cach-lam-banh-mi-que-ngon.jpg',N'Bánh Mỳ Que Kẹp Xúc Xích', 25000, 22500, 0, 20,N'Yêu thích','', 4.9 ),
   
-    (3, 3, 'https://cdn.tgdd.vn/Files/2021/08/10/1374160/hoc-cach-pha-tra-sua-o-long-dai-loan-thom-ngon-chuan-vi-ai-cung-me-202108100039248020.jpg',N'Trà Sữa Truyền Thống', 42000, 35000, 0, 20,'Yêu thích+','', 4.9 ),
-	(5, 3, 'https://thophat.com/wp-content/uploads/2022/03/BB-Chay-DB-640g-1.jpg', N'Bánh Bao Nóng', 22000, 14000, 0, 20,'Yêu thích','', 4.3 ),
-    (5, 3, 'https://images.getrecipekit.com/20230813061131-andy-20cooks-20-20roast-20pork-20banh-20mi.jpg?aspect_ratio=16:9&quality=90&',N'Bánh Mì Nhân Thịt Xông Khói', 32000, 25000, 0, 20,'Sale','', 4.2 ),
-    (3, 3, 'https://cdn.tgdd.vn/Files/2021/08/10/1374160/hoc-cach-pha-tra-sua-o-long-dai-loan-thom-ngon-chuan-vi-ai-cung-me-202108100039248020.jpg',N'Trà Sữa Truyền Thống', 42000, 35000, 0, 20,'Yêu thích+','', 4.9 ),
-    (3, 3, 'https://cdn.tgdd.vn/Files/2021/08/10/1374160/hoc-cach-pha-tra-sua-o-long-dai-loan-thom-ngon-chuan-vi-ai-cung-me-202108100039248020.jpg',N'Trà Sữa Truyền Thống', 42000, 35000, 0, 20,'Yêu thích+','', 4.9 ),
-    (3, 3, 'https://cdn.eva.vn/upload/4-2023/images/2023-11-16/c36--1--1700118255-311-width640height360.png',N'Trà Chanh', 15000, 9000, 0, 20,'Yêu thích','', 4.9 ),
-    (1, 3, 'https://danviet.mediacdn.vn/zoom/600_315/2020/8/31/com-15988108612341894071093-crop-1598810866649564149485.png',N'Cơm Rang Hải Sản', 45000, 42000, 0, 20,'Yêu thích','', 4.9 ),
-    (1, 3, 'https://cdn.tgdd.vn/2021/06/CookProduct/1200-1200x675.jpg',N'Cơm Rang Thập Cẩm', 45000, 32000, 0, 20,'Yêu thích','', 4.9  ),
-    (1, 3, 'https://afamilycdn.com/150157425591193600/2023/11/5/20171010123453-com-rang-ngon-16991701953151469268883.jpg',N'Cơm Rang Tại Gia', 45000, 32000, 0, 20,'Yêu thích','', 4.9  ),
-    (2, 3, 'https://file.hstatic.net/1000394081/article/bun-dau-mam-tom-thap-cam_2321472f6d634b1192e171c5e659e187.jpg',N'Bún Đậu Mắm Tôm', 38000, 34000, 0, 20,'Yêu thích+','', 4.9 ),
-    (5, 3, 'https://banhmiquedananglamvublog4338.edublogs.org/files/2022/09/z3744736924187_eb24b5778f10702d04836514b0f0dbba-1024x683.jpg',N'Bánh Mỳ Que Pate Chà Bông', 28000, 24000, 0, 20,'Yêu thích+','', 4.9 ),
+    (3, 3, 'https://cdn.tgdd.vn/Files/2021/08/10/1374160/hoc-cach-pha-tra-sua-o-long-dai-loan-thom-ngon-chuan-vi-ai-cung-me-202108100039248020.jpg',N'Trà Sữa Truyền Thống', 42000, 35000, 0, 20,N'Yêu thích','', 4.9 ),
+	(5, 3, 'https://thophat.com/wp-content/uploads/2022/03/BB-Chay-DB-640g-1.jpg', N'Bánh Bao Nóng', 22000, 14000, 0, 20,N'Yêu thích','', 4.3 ),
+    (5, 3, 'https://images.getrecipekit.com/20230813061131-andy-20cooks-20-20roast-20pork-20banh-20mi.jpg?aspect_ratio=16:9&quality=90&',N'Bánh Mì Nhân Thịt Xông Khói', 32000, 25000, 0, 20,N'Giảm giá','', 4.2 ),
+    (3, 3, 'https://cdn.tgdd.vn/Files/2021/08/10/1374160/hoc-cach-pha-tra-sua-o-long-dai-loan-thom-ngon-chuan-vi-ai-cung-me-202108100039248020.jpg',N'Trà Sữa Truyền Thống', 42000, 35000, 0, 20,N'Yêu thích','', 4.9 ),
+    (3, 3, 'https://cdn.tgdd.vn/Files/2021/08/10/1374160/hoc-cach-pha-tra-sua-o-long-dai-loan-thom-ngon-chuan-vi-ai-cung-me-202108100039248020.jpg',N'Trà Sữa Truyền Thống', 42000, 35000, 0, 20,N'Yêu thích','', 4.9 ),
+    (3, 3, 'https://cdn.eva.vn/upload/4-2023/images/2023-11-16/c36--1--1700118255-311-width640height360.png',N'Trà Chanh', 15000, 9000, 0, 20,N'Yêu thích','', 4.9 ),
+    (1, 3, 'https://danviet.mediacdn.vn/zoom/600_315/2020/8/31/com-15988108612341894071093-crop-1598810866649564149485.png',N'Cơm Rang Hải Sản', 45000, 42000, 0, 20,N'Yêu thích','', 4.9 ),
+    (1, 3, 'https://cdn.tgdd.vn/2021/06/CookProduct/1200-1200x675.jpg',N'Cơm Rang Thập Cẩm', 45000, 32000, 0, 20,N'Yêu thích','', 4.9  ),
+    (1, 3, 'https://afamilycdn.com/150157425591193600/2023/11/5/20171010123453-com-rang-ngon-16991701953151469268883.jpg',N'Cơm Rang Tại Gia', 45000, 32000, 0, 20,N'Yêu thích','', 4.9  ),
+    (2, 3, 'https://file.hstatic.net/1000394081/article/bun-dau-mam-tom-thap-cam_2321472f6d634b1192e171c5e659e187.jpg',N'Bún Đậu Mắm Tôm', 38000, 34000, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 3, 'https://banhmiquedananglamvublog4338.edublogs.org/files/2022/09/z3744736924187_eb24b5778f10702d04836514b0f0dbba-1024x683.jpg',N'Bánh Mỳ Que Pate Chà Bông', 28000, 24000, 0, 20,N'Yêu thích','', 4.9 ),
    
-    (5, 4, 'https://cdn.tgdd.vn/Files/2022/11/17/1487645/cach-nau-xoi-xeo-ngo-thom-ngon-deo-dep-mat-cho-bua-sang-202211171330393361.jpg',N'Xôi Xéo Siêu To Khổng Lồ', 35000, 28000, 0, 20,'Yêu thích','', 4.5 ),
-    (2, 4, 'https://i.ytimg.com/vi/C1P1Cw9J1-I/maxresdefault.jpg',N'Bún Riêu Cua ', 45000, 40000, 0, 20,'Yêu thích','', 4.8  ),
-    (2, 4, 'https://vcdn-giadinh.vnecdn.net/2021/01/02/Anh-6-7105-1609558348.jpg', N'Bún Mọc', 65000, 52000, 0, 20,'Sale','', 4.9  ),
-    (2, 4, 'https://cdn.tgdd.vn/Files/2020/04/03/1246339/cach-nau-bun-ca-ha-noi-thom-ngon-chuan-vi-khong-ta-13.jpg',N'Bún Cá', 48000, 42000, 0, 20,'Yêu thích','', 4.9 ),
-    (5, 4, 'https://chacanhatrangngoctan.com/wp-content/uploads/2021/08/cach-lam-banh-mi-que-ngon.jpg',N'Bánh Mỳ Que Kẹp Xúc Xích', 25000, 22500, 0, 20,'Yêu thích','', 4.9 ),
-    (3, 4, 'https://cdn.eva.vn/upload/4-2023/images/2023-11-16/c36--1--1700118255-311-width640height360.png',N'Trà Chanh', 15000, 9000, 0, 20,'Yêu thích','', 4.9 ),
-    (1, 4, 'https://cdn.tgdd.vn/2021/06/CookProduct/1200-1200x675.jpg',N'Cơm Rang Thập Cẩm', 45000, 32000, 0, 20,'Yêu thích','', 4.9  ),
-    (2, 4, 'https://file.hstatic.net/1000394081/article/bun-dau-mam-tom-thap-cam_2321472f6d634b1192e171c5e659e187.jpg',N'Bún Đậu Mắm Tôm', 38000, 34000, 0, 20,'Yêu thích+','', 4.9 ),
-    (5, 4, 'https://cdn.tgdd.vn/Files/2020/10/22/1301077/tuyet-chieu-lam-banh-mi-que-thit-cay-gion-rum-ngon-tai-te-202203142255016223.jpg',N'Bánh Mỳ Que Không Nhân', 12000, 9000, 0, 20,'Yêu thích+','', 4.9 ),
+    (5, 4, 'https://cdn.tgdd.vn/Files/2022/11/17/1487645/cach-nau-xoi-xeo-ngo-thom-ngon-deo-dep-mat-cho-bua-sang-202211171330393361.jpg',N'Xôi Xéo Siêu To Khổng Lồ', 35000, 28000, 0, 20,N'Yêu thích','', 4.5 ),
+    (2, 4, 'https://i.ytimg.com/vi/C1P1Cw9J1-I/maxresdefault.jpg',N'Bún Riêu Cua ', 45000, 40000, 0, 20,N'Yêu thích','', 4.8  ),
+    (2, 4, 'https://vcdn-giadinh.vnecdn.net/2021/01/02/Anh-6-7105-1609558348.jpg', N'Bún Mọc', 65000, 52000, 0, 20,N'Giảm giá','', 4.9  ),
+    (2, 4, 'https://cdn.tgdd.vn/Files/2020/04/03/1246339/cach-nau-bun-ca-ha-noi-thom-ngon-chuan-vi-khong-ta-13.jpg',N'Bún Cá', 48000, 42000, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 4, 'https://chacanhatrangngoctan.com/wp-content/uploads/2021/08/cach-lam-banh-mi-que-ngon.jpg',N'Bánh Mỳ Que Kẹp Xúc Xích', 25000, 22500, 0, 20,N'Yêu thích','', 4.9 ),
+    (3, 4, 'https://cdn.eva.vn/upload/4-2023/images/2023-11-16/c36--1--1700118255-311-width640height360.png',N'Trà Chanh', 15000, 9000, 0, 20,N'Yêu thích','', 4.9 ),
+    (1, 4, 'https://cdn.tgdd.vn/2021/06/CookProduct/1200-1200x675.jpg',N'Cơm Rang Thập Cẩm', 45000, 32000, 0, 20,N'Yêu thích','', 4.9  ),
+    (2, 4, 'https://file.hstatic.net/1000394081/article/bun-dau-mam-tom-thap-cam_2321472f6d634b1192e171c5e659e187.jpg',N'Bún Đậu Mắm Tôm', 38000, 34000, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 4, 'https://cdn.tgdd.vn/Files/2020/10/22/1301077/tuyet-chieu-lam-banh-mi-que-thit-cay-gion-rum-ngon-tai-te-202203142255016223.jpg',N'Bánh Mỳ Que Không Nhân', 12000, 9000, 0, 20,N'Yêu thích','', 4.9 ),
 
-    (3, 5, 'https://bizweb.dktcdn.net/100/421/036/files/cach-lam-tra-chanh-chuan-vi-kinh-doanh-3.jpg?v=1617175803846',N'Trà Chanh', 15000, 9000, 0, 20,'Yêu thích','', 4.9 ),
-	(4, 5, 'https://cdn.tgdd.vn/Files/2017/03/22/963765/cach-lam-ga-ran-thom-ngon-8_760x450.jpg',N'Đùi Gà Rán Cỡ Lớn', 35000, 31900, 0, 20,'Sale','', 4.9 ),
-    (5, 5, 'https://thophat.com/wp-content/uploads/2022/03/BB-Chay-DB-640g-1.jpg', N'Bánh Bao Nóng', 22000, 14000, 0, 20,'Yêu thích','', 4.9 ),
-    (5, 5, 'https://cdn.tgdd.vn/Files/2020/10/22/1301077/tuyet-chieu-lam-banh-mi-que-thit-cay-gion-rum-ngon-tai-te-202203142255016223.jpg',N'Bánh Mỳ Que Không Nhân', 12000, 9000, 0, 20,'Yêu thích+','', 4.9 ),
-    (3, 5, 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiLybZEi9NLNGmUNUAQnNghC2YpnZx262cPtTbBdhmO17qJAYjRKdtArVgsBeaSzMqKv4IsG0Uo8EslfS9fY3Ie2gP6KZmAXuThkxmsrIXgBAh0aZMjF-h2zgtuCUDXWHbsGuTzaRma5h8oAfZjXP-fqG-Ycvb1Gr418-zvuNrmecXZuSXh7tKycMtrXCo4/w640-h360/tra%20dao%20cam%20sa.jpg',N'Trà Thạch Đào Cam Xả', 60000, 52000, 0, 20,'Yêu thích+','', 4.9 ),
-    (5, 5, 'https://banhmiquedananglamvublog4338.edublogs.org/files/2022/09/z3744736924187_eb24b5778f10702d04836514b0f0dbba-1024x683.jpg',N'Bánh Mỳ Que Pate Chà Bông', 28000, 24000, 0, 20,'Yêu thích+','', 4.9 ),
-    (4, 5, 'https://cdn.tgdd.vn/Files/2021/08/10/1374266/cach-lam-mon-ga-cay-pho-mai-cay-ngon-chuan-vi-han-202201041000310531.jpg',N'Gà Phô Mai', 28000, 24000, 0, 20,'Yêu thích+','', 4.9 ),
-    (2, 5, 'https://cdn.tgdd.vn/2021/04/CookProduct/1-1200x676-21.jpg',N'Bún Bò Nhiều Bò', 44000, 39500, 0, 20,'Yêu thích+','', 4.9 ),
-    (2, 5, 'https://cdn.tgdd.vn/Files/2021/07/02/1365019/an-bao-lau-nay-ban-co-biet-bun-dau-mam-tom-la-dac-san-o-dau-202206021309408488.jpeg',N'Bún Đậu Mắm Tôm', 39000, 35000, 0, 20,'Yêu thích+','', 4.9 ),
-	(4, 5, 'https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/4/8/1032286/Recipe_1314.jpg',N'Mì Xào Thịt Bò', 39000, 35000, 0, 20,'Yêu thích+','', 4.9 );
+    (3, 5, 'https://bizweb.dktcdn.net/100/421/036/files/cach-lam-tra-chanh-chuan-vi-kinh-doanh-3.jpg?v=1617175803846',N'Trà Chanh', 15000, 9000, 0, 20,N'Yêu thích','', 4.9 ),
+	(4, 5, 'https://cdn.tgdd.vn/Files/2017/03/22/963765/cach-lam-ga-ran-thom-ngon-8_760x450.jpg',N'Đùi Gà Rán Cỡ Lớn', 35000, 31900, 0, 20,N'Giảm giá','', 4.9 ),
+    (5, 5, 'https://thophat.com/wp-content/uploads/2022/03/BB-Chay-DB-640g-1.jpg', N'Bánh Bao Nóng', 22000, 14000, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 5, 'https://cdn.tgdd.vn/Files/2020/10/22/1301077/tuyet-chieu-lam-banh-mi-que-thit-cay-gion-rum-ngon-tai-te-202203142255016223.jpg',N'Bánh Mỳ Que Không Nhân', 12000, 9000, 0, 20,N'Yêu thích','', 4.9 ),
+    (3, 5, 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiLybZEi9NLNGmUNUAQnNghC2YpnZx262cPtTbBdhmO17qJAYjRKdtArVgsBeaSzMqKv4IsG0Uo8EslfS9fY3Ie2gP6KZmAXuThkxmsrIXgBAh0aZMjF-h2zgtuCUDXWHbsGuTzaRma5h8oAfZjXP-fqG-Ycvb1Gr418-zvuNrmecXZuSXh7tKycMtrXCo4/w640-h360/tra%20dao%20cam%20sa.jpg',N'Trà Thạch Đào Cam Xả', 60000, 52000, 0, 20,N'Yêu thích','', 4.9 ),
+    (5, 5, 'https://banhmiquedananglamvublog4338.edublogs.org/files/2022/09/z3744736924187_eb24b5778f10702d04836514b0f0dbba-1024x683.jpg',N'Bánh Mỳ Que Pate Chà Bông', 28000, 24000, 0, 20,N'Yêu thích','', 4.9 ),
+    (4, 5, 'https://cdn.tgdd.vn/Files/2021/08/10/1374266/cach-lam-mon-ga-cay-pho-mai-cay-ngon-chuan-vi-han-202201041000310531.jpg',N'Gà Phô Mai', 28000, 24000, 0, 20,N'Yêu thích','', 4.9 ),
+    (2, 5, 'https://cdn.tgdd.vn/2021/04/CookProduct/1-1200x676-21.jpg',N'Bún Bò Nhiều Bò', 44000, 39500, 0, 20,N'Yêu thích','', 4.9 ),
+    (2, 5, 'https://cdn.tgdd.vn/Files/2021/07/02/1365019/an-bao-lau-nay-ban-co-biet-bun-dau-mam-tom-la-dac-san-o-dau-202206021309408488.jpeg',N'Bún Đậu Mắm Tôm', 39000, 35000, 0, 20,N'Yêu thích','', 4.9 ),
+	(4, 5, 'https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/4/8/1032286/Recipe_1314.jpg',N'Mì Xào Thịt Bò', 39000, 35000, 0, 20,N'Yêu thích','', 4.9 );
     
 	
 INSERT INTO Menu (seller_id, [status], menu_date)
