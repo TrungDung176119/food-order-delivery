@@ -1,0 +1,89 @@
+/* Chat Box Styles */
+.chat-box {
+    position: fixed;
+    bottom: 80px; /* Adjusted bottom position */
+    right: 20px; /* Moved to bottom right */
+    width: 80%; /* Adjusted width */
+    max-width: 400px; /* Added max-width */
+    height: 500px; /* Increased height */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    z-index: 1000; /* Ensure it's above other content */
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .chat-box {
+        width: 90%; /* Adjusted width for smaller screens */
+        max-width: none; /* Remove max-width for smaller screens */
+        height: 70%; /* Adjusted height for smaller screens */
+        bottom: 10px; /* Adjusted bottom position for smaller screens */
+    }
+}
+.chat-box-header {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    background-color: #ee4d2d;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-box-header h2 {
+    margin: 0;
+}
+
+.chat-box-header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.chat-box-content {
+    padding: 10px;
+    height: 200px; /* Adjust as needed */
+    overflow-y: auto;
+}
+
+.chat-box-footer {
+    margin-top: auto; /* Push footer to the bottom */
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ccc;
+    
+}
+
+.chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px; /* Moved to bottom right */
+    background-color: #ee4d2d;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.chat-toggle i {
+    font-size: 20px;
+}
+
+.chat-input {
+    background-color: inherit;
+    border: 0;
+    flex: 1;
+    font-size: 1.4rem;
+    line-height: 16px;
+    outline: none;
+    width: 75%;
+}
